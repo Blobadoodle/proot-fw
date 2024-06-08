@@ -18,9 +18,9 @@
 // [] ---------- Pin Definitions ---------- []
 
 // RGB LED
-#define RED_PIN   9
-#define GREEN_PIN 8
-#define BLUE_PIN  7
+#define RED_PIN   5
+#define GREEN_PIN 6
+#define BLUE_PIN  4
 
 // Controls
 #define BTN_PIN 2
@@ -61,6 +61,14 @@
 #define MAW_LEFT (NOSE_LEFT + 8)
 #define EYE_LEFT (MAW_LEFT + 32)
 
+// Colours for each expression
+const uint8_t colours[NUM_OF_EXPRESSIONS][3] = {
+  {0, 8, 0},  // Green  = Happy    :)
+  {0, 0, 8},  // Blue   = Spooked O_O
+  {8, 0, 0},  // Red    = Angry   >:(
+  {8, 0, 8}   // Purple = Booped  >w<
+};
+
 // [] ------------- Variables ------------- []
 
 Max72xxPanel matrix = Max72xxPanel(CS, HORIZONTAL_DISPLAYS, VERTICAL_DISPLAYS);
@@ -88,6 +96,9 @@ unsigned long glitchSpeedTime = 0;
 
 bool forceNextGlitch = false;
 bool forceNextBlink = false;
+
+bool changeExpressionBlink = false;
+uint8_t newExpression;
 
 // [] ------------- Begin Code ------------ []
 
@@ -138,6 +149,8 @@ void loop() {
   bool shouldGlitch = forceNextGlitch || ((currentMillis - lastGlitchTime) > GLITCH_TIME);
   signalRedraw |= shouldGlitch;
 
+  signalRedraw |= changeExpressionBlink;
+
   receiveLinkData();
 
   if(signalRedraw) {
@@ -153,12 +166,19 @@ void loop() {
   }
 }
 
+void setCurrentExpression(uint8_t expression) {
+  newExpression = expression;
+  changeExpressionBlink = true;
+  signalRedraw = true;
+  setLedColour(colours[expression][0], colours[expression][1], colours[expression][2]);
+}
+
 // Cycle through facial expressions
 void incrementExpression() {
   if(currentExpression == NUM_OF_EXPRESSIONS - 1)
-    currentExpression = 0;
+    setCurrentExpression(0);
   else
-    currentExpression++;
+    setCurrentExpression(currentExpression + 1);
   signalRedraw = true;
 }
 
@@ -171,9 +191,9 @@ void handleLinkCommand(char command) {
       return;
     case '<': // Cycle through expressions but backwards
       if(currentExpression == 0)
-        currentExpression = NUM_OF_EXPRESSIONS - 1;
+        setCurrentExpression(NUM_OF_EXPRESSIONS - 1);
       else
-        currentExpression--;
+        setCurrentExpression(currentExpression - 1);
       signalRedraw = true;
       return;
     case '+': // Increase brightness
@@ -198,7 +218,7 @@ void handleLinkCommand(char command) {
 
   // Set expression to specific one
   if(command >= '0' && command <= ('0' + NUM_OF_EXPRESSIONS) - 1) {
-    currentExpression = command - '0';
+    setCurrentExpression(command - '0');
     signalRedraw = true;
   }
 }
@@ -235,15 +255,18 @@ void blink() {
   if(currentMillis - blinkSpeedTime > BLINK_SPEED) {
     blinkStep++;
 
-    if(blinkStep < 8) {
+    if(blinkStep < 8)
       blinkPos = blinkStep - 8;
-    } else {
+    else
       blinkPos = -(blinkStep - 8);
-    }
+
+    if(changeExpressionBlink && blinkStep == 8)
+      currentExpression = newExpression;
 
     if(blinkStep == 17) {
       lastBlinkTime = currentMillis;
       forceNextBlink = false;
+      changeExpressionBlink = false;
       blinkStep = 0;
     }
 
@@ -292,35 +315,27 @@ void drawFace(bool shouldBlink, bool shouldGlitch) {
 
   switch(currentExpression) {
     case 0: // Happy :)
-      // matrix.drawBitmap(EYE_RIGHT, 0, Eye, 16, 8, HIGH);
       drawRightEye(Eye);
       matrix.drawBitmap(EYE_LEFT, 0, EyeL, 16, 8, HIGH);
-      setLedColour(0, 16, 0); // Green
       break;
     
     case 1: // Spooked O_O
-      // matrix.drawBitmap(EYE_RIGHT, 0, Spooked, 16, 8, HIGH);
       drawRightEye(Spooked);
       matrix.drawBitmap(EYE_LEFT, 0, Spooked, 16, 8, HIGH);
-      setLedColour(0, 0, 16); // Blue
       break;
 
     case 2: // Angry >:(
-      // matrix.drawBitmap(EYE_RIGHT, 0, Angry, 16, 8, HIGH);
       drawRightEye(Angry);
       matrix.drawBitmap(EYE_LEFT, 0, AngryL, 16, 8, HIGH);
-      setLedColour(16, 0, 0); // Red
       break;
 
     case 3: // Booped >w<
-      // matrix.drawBitmap(EYE_RIGHT, 0, vwvL, 16, 8, HIGH);
       drawRightEye(vwv);
       matrix.drawBitmap(EYE_LEFT, 0, vwv, 16, 8, HIGH);
-      setLedColour(16, 0, 16); // Purple
       break;
   }
 
-  if(shouldBlink)
+  if(shouldBlink || changeExpressionBlink)
     blink();
 }
 
@@ -377,5 +392,5 @@ void setLedColour(uint8_t red, uint8_t green, uint8_t blue) {
   analogWrite(GREEN_PIN, green);
   analogWrite(BLUE_PIN, blue);
   showingLed = true;
-  ledTime = millis();
+  ledTime = currentMillis;
 }
