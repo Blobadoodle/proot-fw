@@ -1,0 +1,59 @@
+#pragma once
+
+#include <cstdint>
+#include <Chrono.h>
+#include "../Utils/Settings.h"
+
+#define FOCUS_EXPRESSION 0 
+#define FOCUS_QUICKSETTINGS 1
+
+#define QUICKSETTING_MIC_GAIN 0
+#define QUICKSETTING_FAN 1
+#define QUICKSETTING_BRIGHTNESS 2
+#define QUICKSETTING_DEFAULT_EXPRESSION 3
+
+#define SCREEN_MAIN 0
+#define SCREEN_SETTINGS 1
+
+class StateManager {
+	public:
+		void Init(Settings *_settings);
+		void Update(bool boopPresent);
+		void SetExpression(uint8_t expressionNum);
+
+		uint8_t mawGlitchStep = 0;
+		int8_t blinkPos = -8;
+
+		bool isBlinking = false;
+		bool isMawGlitching = false;
+		bool isBooping = false;
+
+		bool redrawNeeded = false;
+		bool internalOnlyRedrawNeeded = false;
+
+		uint8_t micGain = 40;
+
+		uint8_t currentExpression;
+		uint8_t lastExpression;
+
+		// Internal display UI stuff
+		uint8_t focus = FOCUS_EXPRESSION;
+		uint8_t selectedQuickSetting = QUICKSETTING_MIC_GAIN;
+	protected:
+		Chrono blinkTimer = Chrono();
+		Chrono blinkFrameTimer = Chrono();
+		Chrono glitchTimer = Chrono();
+		Chrono glitchFrameTimer = Chrono();
+	
+		Chrono boopTimer = Chrono();
+
+		uint8_t blinkStep = 0;
+		uint32_t checkTime = 0;
+
+		bool hasExpressionChangedInbetweenFrames = false; // long ahh variable name
+
+		uint8_t targetExpression = 0;
+
+		void GlitchMaw();
+		void Blink();
+};
