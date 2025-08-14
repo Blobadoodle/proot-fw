@@ -21,6 +21,8 @@ class Protogen {
 		UserControls userControls;
 		Fan fan;
 
+		bool fullyInitialised = false;
+
 		bool Init();
 		void Tick();
 		void HardwareTest();

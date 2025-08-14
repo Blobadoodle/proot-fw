@@ -29,11 +29,24 @@ bool Protogen::Init() {
 
 	if(settingSuccess && internalDisplaySuccess && gestureSensorSuccess) {
 		Serial.println("Successfully initialised!");
-		return true;
+		fullyInitialised = true;
 	} else {
 		Serial.println("One or more errors prevented a successful initialisation.");
-		return false;
+		Serial.printf("Settings: %s, Internal Display: %s, Gesture Sensor: %s\n",
+			settingSuccess ? "OK" : "ERROR",
+			internalDisplaySuccess ? "OK" : "ERROR",
+			gestureSensorSuccess ? "OK" : "ERROR");
+		fullyInitialised = false;
 	}
+
+	// Show red LED if initialisation failed
+	if(!fullyInitialised) {
+		ums3.setPixelPower(true);
+		ums3.setPixelColor(0xFF0000);
+		ums3.setPixelBrightness(255);
+	}
+
+	return fullyInitialised;
 };
 
 void Protogen::Tick() {
@@ -51,6 +64,7 @@ void Protogen::Tick() {
 	}
 }
 
+// TODO: Implement hardware test
 void Protogen::HardwareTest() {
 	Serial.println("Halting main loop and performing hardware test due to firmware flag.");
 	fan.SetFanSpeed(10);
