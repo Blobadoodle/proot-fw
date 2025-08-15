@@ -46,6 +46,10 @@ bool Protogen::Init() {
 		ums3.setPixelBrightness(255);
 	}
 
+#ifdef HARDWARE_TEST
+	Serial.println("Halting main loop and performing hardware test due to firmware flag.");
+#endif
+
 	return fullyInitialised;
 };
 
@@ -64,8 +68,35 @@ void Protogen::Tick() {
 	}
 }
 
-// TODO: Implement hardware test
 void Protogen::HardwareTest() {
-	Serial.println("Halting main loop and performing hardware test due to firmware flag.");
+	Serial.println("Testing UMS3...");
+	Serial.printf("Battery voltage: %.2fV\n", ums3.getBatteryVoltage());
+	Serial.printf("VBUS Present: %s\n", ums3.getVbusPresent() ? "Yes" : "No");
+	ums3.setPixelPower(true);
+	ums3.setPixelColor(0x00FF00); // Set to green
+	ums3.setPixelBrightness(255);
+	delay(2500);
+
+	Serial.println("Testing fan..."); // and thus also testing the level shifter
 	fan.SetFanSpeed(10);
+	delay(2500);
+	fan.SetFanSpeed(5);
+	delay(2500);
+	fan.SetFanSpeed(0);
+
+	Serial.println("Testing internal display...");
+	internalDisplay.HardwareTest();
+	delay(2500);
+
+	Serial.println("Testing LED matrix...");
+	matrix.HardwareTest();
+	delay(2500);
+
+	// this will enter an error loop if the gesture sensor is not connected/broken, cry about it
+	Serial.println("Testing gesture sensor...");
+	gestureSensor.HardwareTest();
+	delay(2500);
+
+	Serial.println("Test complete! Restarting in 5 seconds...");
+	delay(5000);
 }

@@ -18,4 +18,6 @@ class LEDMatrix {
 		uint8_t brightness;
 
 		void Update(const uint8_t *bitmap);
+
+		void HardwareTest();
 };

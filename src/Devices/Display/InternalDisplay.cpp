@@ -48,6 +48,7 @@ std::tuple<uint8_t, uint8_t> getCoordsForExpressionButton(uint8_t expressionNum)
 	return std::make_tuple(x, y);
 }
 
+// TODO: Move this to a specific device class for Battery
 // https://github.com/rlogiacco/BatterySense/blob/master/Battery.h line 101
 static inline uint8_t sigmoidal(uint16_t voltage, uint16_t minVoltage, uint16_t maxVoltage) {
 	// slow
@@ -157,5 +158,26 @@ void InternalDisplay::Update(const uint8_t *bitmap, float batteryVoltage) {
 	if(state->isBooping)
 		display.drawBitmap(18, 65, Bitmaps::InternalDisplay::BoopIcon, 16, 12, SH110X_WHITE);
 
+	display.display();
+}
+
+void InternalDisplay::HardwareTest() {
+	display.clearDisplay();
+	uint8_t contrastValues[] = {0, 127, 255};
+
+	for (uint8_t i = 0; i < sizeof(contrastValues); i++) {
+		display.setContrast(i);
+
+		display.fillScreen(SH110X_WHITE);
+		display.display();
+		delay(500);
+
+		display.fillScreen(SH110X_BLACK);
+		display.display();
+		delay(500);
+	}
+
+	display.setContrast(255);
+	display.fillScreen(SH110X_WHITE);
 	display.display();
 }

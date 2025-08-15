@@ -28,3 +28,19 @@ void LEDMatrix::Update(const uint8_t *bitmap) {
 
 	matrix.write();
 }
+
+void LEDMatrix::HardwareTest() {
+	for(uint8_t i = 0; i <= 15; i++) {
+		matrix.setIntensity(i);
+		matrix.fillScreen(HIGH);
+		matrix.write();
+		delay(250);
+		matrix.fillScreen(LOW);
+		matrix.write();
+		delay(250);
+	}
+
+	matrix.setIntensity(15);
+	matrix.fillScreen(HIGH);
+	matrix.write();
+}

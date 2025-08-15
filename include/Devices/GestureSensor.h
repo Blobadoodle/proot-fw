@@ -9,4 +9,5 @@ class GestureSensor {
 	public:
 		bool Init();
 		bool CheckForBoop();
+		void HardwareTest();
 };

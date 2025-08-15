@@ -6,14 +6,12 @@ Protogen proot;
 
 void setup() {
 	proot.Init();
-#ifdef HARDWARE_TEST
-	proot.HardwareTest();
-#endif
 }
 
 void loop() {
-#ifndef HARDWARE_TEST
+#ifdef HARDWARE_TEST
+	proot.HardwareTest();
+#else
 	proot.Tick();
 #endif
-	// delay(10);
 }

@@ -21,4 +21,6 @@ class InternalDisplay {
 		bool Init(StateManager *_state, Settings *_settings);
 
 		void Update(const uint8_t *bitmap, float batteryVoltage);
+
+		void HardwareTest();
 };
