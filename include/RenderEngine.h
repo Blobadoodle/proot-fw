@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Constants.h>
+#include <Data/Constants.h>
 #include <cstdint>
 #include <Adafruit_GFX.h>
 #include <Chrono.h>
-#include "../StateManager/StateManager.h"
+#include <StateManager.h>
 
 class RenderEngine {
 	public:

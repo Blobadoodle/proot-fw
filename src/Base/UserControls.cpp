@@ -1,6 +1,6 @@
 #include "UserControls.h"
-#include <Configuration.h>
-#include "../Data/Expressions.h"
+#include <Data/Configuration.h>
+#include <Data/Expressions.h>
 
 void UserControls::OnClick() {
 	if(state->focus == FOCUS_EXPRESSION) {

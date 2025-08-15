@@ -2,9 +2,9 @@
 
 #include <Adafruit_GFX.h>
 #include <Max72xxPanel.h>
-#include <Configuration.h>
-#include <Constants.h>
-#include "../../Utils/Settings.h"
+#include <Data/Configuration.h>
+#include <Data/Constants.h>
+#include <Settings.h>
 
 class LEDMatrix {
 	protected:

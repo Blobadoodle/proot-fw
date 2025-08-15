@@ -3,10 +3,10 @@
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
-#include "../../StateManager/StateManager.h"
-#include "../../Utils/Settings.h"
+#include <StateManager.h>
+#include <Settings.h>
 #include <Chrono.h>
-#include <Configuration.h>
+#include <Data/Configuration.h>
 
 class InternalDisplay {
 	protected:

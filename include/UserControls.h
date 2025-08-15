@@ -1,9 +1,9 @@
 #pragma once
 #include <OneButton.h>
-#include "../StateManager/StateManager.h"
-#include "../Devices/Display/LEDMatrix.h"
-#include "../Devices/Fan/Fan.h"
-#include "../Utils/Settings.h"
+#include <StateManager.h>
+#include <Devices/Display/LEDMatrix.h>
+#include <Devices/Fan.h>
+#include <Settings.h>
 
 class UserControls {
 	public:

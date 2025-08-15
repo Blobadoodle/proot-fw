@@ -1,9 +1,9 @@
 #include <Arduino.h>
-#include "InternalDisplay.h"
-#include <Configuration.h>
-#include <Constants.h>
-#include "../../Data/Bitmaps.h"
-#include "../../Data/Expressions.h"
+#include <Devices/Display/InternalDisplay.h>
+#include <Data/Configuration.h>
+#include <Data/Constants.h>
+#include <Data/Bitmaps.h>
+#include <Data/Expressions.h>
 #include <tuple>
 
 bool InternalDisplay::Init(StateManager *_state, Settings *_settings) {

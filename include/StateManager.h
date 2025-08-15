@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <Chrono.h>
-#include "../Utils/Settings.h"
+#include <Settings.h>
 
 #define FOCUS_EXPRESSION 0 
 #define FOCUS_QUICKSETTINGS 1

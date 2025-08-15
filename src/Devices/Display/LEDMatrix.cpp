@@ -1,7 +1,7 @@
 #include <Arduino.h>
-#include "LEDMatrix.h"
-#include <Configuration.h>
-#include <Constants.h>
+#include <Devices/Display/LEDMatrix.h>
+#include <Data/Configuration.h>
+#include <Data/Constants.h>
 
 void LEDMatrix::Init(Settings *settings) {
 	matrix.init();

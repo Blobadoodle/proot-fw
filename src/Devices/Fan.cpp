@@ -1,5 +1,5 @@
-#include "Fan.h"
-#include <Configuration.h>
+#include <Devices/Fan.h>
+#include <Data/Configuration.h>
 #include <Arduino.h>
 
 void Fan::Init(Settings *settings) {

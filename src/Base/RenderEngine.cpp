@@ -1,9 +1,9 @@
 #include "RenderEngine.h"
-#include "../Data/Bitmaps.h"
-#include "../StateManager/StateManager.h"
-#include "../Data/Expressions.h"
-#include <Constants.h>
-#include <Configuration.h>
+#include <Data/Bitmaps.h>
+#include <Data/Expressions.h>
+#include <StateManager.h>
+#include <Data/Constants.h>
+#include <Data/Configuration.h>
 #include <cstdint>
 
 // Reverse order of bits in byte

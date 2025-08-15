@@ -1,9 +1,10 @@
 #pragma once
 
 #include <cstdint>
+#include <cstring>
 #include <FastCRC.h>
-#include <Constants.h>
-#include "../Data/Expressions.h"
+#include <Data/Constants.h>
+#include <Data/Expressions.h>
 
 struct SettingsHeader {
 	char magic[7];

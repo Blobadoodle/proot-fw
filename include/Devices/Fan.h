@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include "../../Utils/Settings.h"
+#include <Settings.h>
 
 class Fan {
 	public:

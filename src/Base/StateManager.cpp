@@ -1,7 +1,6 @@
 #include "StateManager.h"
-#include <Configuration.h>
+#include <Data/Configuration.h>
 #include <Arduino.h>
-#include "../Data/Bitmaps.h"
 
 void StateManager::GlitchMaw() {
 	if(glitchFrameTimer.hasPassed(GLITCH_FRAME_TIME)) {

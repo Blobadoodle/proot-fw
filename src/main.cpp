@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include "Base/Protogen.h"
-#include <Configuration.h>
+#include <Protogen.h>
+#include <Data/Configuration.h>
 
 Protogen proot;
 

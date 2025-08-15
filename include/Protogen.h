@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../Utils/Settings.h"
-#include "../Devices/Display/InternalDisplay.h"
-#include "../Devices/Display/LEDMatrix.h"
-#include "../Devices/GestureSensor/GestureSensor.h"
-#include "../Devices/Fan/Fan.h"
-#include "../RenderEngine/RenderEngine.h"
-#include "../Utils/UserControls.h"
+#include <Settings.h>
+#include <Devices/Display/InternalDisplay.h>
+#include <Devices/Display/LEDMatrix.h>
+#include <Devices/GestureSensor.h>
+#include <Devices/Fan.h>
+#include <RenderEngine.h>
+#include <UserControls.h>
 #include <UMS3.h>
 
 class Protogen {

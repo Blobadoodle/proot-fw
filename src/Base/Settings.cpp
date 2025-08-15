@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <WString.h> // Needed for EEPROM.h
 #include <EEPROM.h>
-#include "Settings.h"
+#include <Settings.h>
 
 bool Settings::CheckMagic() { // Returns true/fales if the magic is or isn't correct
 	return memcmp(data.header.magic, SETTINGS_MAGIC, sizeof(SETTINGS_MAGIC)) == 0;

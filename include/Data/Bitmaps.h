@@ -316,7 +316,6 @@ namespace Bitmaps {
 		const unsigned char Speaker3[] PROGMEM = {
 			0x80, 0x40, 0x20, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x20, 0x40, 0x80
 		};
-		
 	}
 
 	// These are all the right side of the helmet, and the code will automatically mirror the left side flipped.

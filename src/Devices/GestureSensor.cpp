@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include <Configuration.h>
-#include "GestureSensor.h"
+#include <Data/Configuration.h>
+#include <Devices/GestureSensor.h>
 
 bool GestureSensor::Init() {
 	pinMode(APDS_INT, INPUT_PULLUP);

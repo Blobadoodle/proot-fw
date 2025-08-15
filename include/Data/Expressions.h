@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Bitmaps.h"
 #include <cstdint>
 
 struct Expression {

@@ -1,4 +1,5 @@
-#include "Expressions.h"
+#include <Data/Expressions.h>
+#include <Data/Bitmaps.h>
 
 Expression Expressions[] = {
 	Expression(Bitmaps::LEDMatrix::Eyes::Happy, ":3"),

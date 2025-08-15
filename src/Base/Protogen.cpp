@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include <Configuration.h>
-#include "Protogen.h"
+#include <Data/Configuration.h>
+#include <Protogen.h>
 
 bool Protogen::Init() {
 	Serial.begin(115200);

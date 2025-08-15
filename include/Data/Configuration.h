@@ -43,9 +43,13 @@
 // How often to update battery percentage on the UI
 #define BATTERY_UPDATE_TIME 15000
 
+// Pins for MAX9814 microphone
+#define MIC_INPUT 35
+#define MIC_GAIN 36
+
 // Perform a hardware test on startup
-// #define HARDWARE_TEST
+#define HARDWARE_TEST
 // Debug, not init until serial connection
-// #define WAIT_FOR_SERIAL
+#define WAIT_FOR_SERIAL
 // Reset EEPROM on startup
 // #define RESET_EEPROM
