@@ -12,7 +12,7 @@ void Microphone::SetGain(uint8_t newGain) {
     if(newGain == 40) {
         digitalWrite(MIC_GAIN, HIGH);
     } else if (newGain == 50) {
-        digitalWrite(MIC_GAIN, HIGH);
+        digitalWrite(MIC_GAIN, LOW);
     } else {
         Serial.printf("Invalid microphone gain: %d. Valid values are 40 or 50.\n", gain);
         return;
