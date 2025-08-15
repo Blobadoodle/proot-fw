@@ -5,6 +5,7 @@
 #include <Devices/Display/LEDMatrix.h>
 #include <Devices/GestureSensor.h>
 #include <Devices/Fan.h>
+#include <Devices/Microphone.h>
 #include <RenderEngine.h>
 #include <UserControls.h>
 #include <UMS3.h>
@@ -20,6 +21,7 @@ class Protogen {
 		StateManager stateManager;
 		UserControls userControls;
 		Fan fan;
+		Microphone mic;
 
 		bool fullyInitialised = false;
 

@@ -22,9 +22,10 @@ bool Protogen::Init() {
 
 	stateManager.Init(&settings);
 	fan.Init(&settings);
+	mic.Init(&settings);
 	matrix.Init(&settings);
 	bool internalDisplaySuccess = internalDisplay.Init(&stateManager, &settings);
-	userControls.Init(&stateManager, &matrix, &fan, &settings);;
+	userControls.Init(&stateManager, &matrix, &fan, &settings);
 	bool gestureSensorSuccess = gestureSensor.Init();
 
 	if(settingSuccess && internalDisplaySuccess && gestureSensorSuccess) {
@@ -90,6 +91,10 @@ void Protogen::HardwareTest() {
 
 	Serial.println("Testing LED matrix...");
 	matrix.HardwareTest();
+	delay(2500);
+
+	Serial.println("Testing microphone...");
+	mic.HardwareTest();
 	delay(2500);
 
 	// this will enter an error loop if the gesture sensor is not connected/broken, cry about it
