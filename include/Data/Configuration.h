@@ -43,9 +43,14 @@
 // How often to update battery percentage on the UI
 #define BATTERY_UPDATE_TIME 15000
 
+// Use a steep sigmoid for battery percentage calculation
+// #define BATTERY_SIGMOID_STEEP
+// Use a slow sigmoid for battery percentage calculation
+// #define BATTERY_SIGMOID_SLOW
+
 // Pins for MAX9814 microphone
-#define MIC_INPUT 35
-#define MIC_GAIN 36
+#define MIC_INPUT 15
+#define MIC_GAIN 16
 
 // Perform a hardware test on startup
 #define HARDWARE_TEST

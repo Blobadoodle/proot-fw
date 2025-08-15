@@ -6,9 +6,10 @@
 #include <Data/Expressions.h>
 #include <tuple>
 
-bool InternalDisplay::Init(StateManager *_state, Settings *_settings) {
+bool InternalDisplay::Init(StateManager *_state, Settings *_settings, Battery *_battery) {
 	state = _state;
 	settings = _settings;
+	battery = _battery;
 	batteryUpdateTime.start(BATTERY_UPDATE_TIME);
 
 	if(!display.begin(0, false)) {
@@ -48,32 +49,7 @@ std::tuple<uint8_t, uint8_t> getCoordsForExpressionButton(uint8_t expressionNum)
 	return std::make_tuple(x, y);
 }
 
-// TODO: Move this to a specific device class for Battery
-// https://github.com/rlogiacco/BatterySense/blob/master/Battery.h line 101
-static inline uint8_t sigmoidal(uint16_t voltage, uint16_t minVoltage, uint16_t maxVoltage) {
-	// slow
-	// uint8_t result = 110 - (110 / (1 + pow(1.468 * (voltage - minVoltage)/(maxVoltage - minVoltage), 6)));
-
-	// steep
-	// uint8_t result = 102 - (102 / (1 + pow(1.621 * (voltage - minVoltage)/(maxVoltage - minVoltage), 8.1)));
-
-	// normal
-	uint8_t result = 105 - (105 / (1 + pow(1.724 * (voltage - minVoltage)/(maxVoltage - minVoltage), 5.5)));
-	return result >= 100 ? 100 : result;
-}
-
-
-uint8_t getBatteryPercentage(float _voltage) {
-	uint16_t voltage = _voltage * 1000;
-	if(voltage <= BATTERY_MIN_MV)
-		return 0;
-	else if(voltage >= BATTERY_MAX_MV)
-		return 100;
-	else
-		return sigmoidal(voltage, BATTERY_MIN_MV, BATTERY_MAX_MV);
-}
-
-void InternalDisplay::Update(const uint8_t *bitmap, float batteryVoltage) {
+void InternalDisplay::Update(const uint8_t *bitmap) {
 	display.clearDisplay();
 
 	display.drawBitmap(0, 0, Bitmaps::InternalDisplay::UI, 128, 128, SH110X_WHITE);
@@ -89,7 +65,7 @@ void InternalDisplay::Update(const uint8_t *bitmap, float batteryVoltage) {
 
 	// Only update battery if atleast 15 seconds have passed since last battery as ADC inaccuracies can cause the % to flicker
 	if(batteryUpdateTime.hasPassed(BATTERY_UPDATE_TIME)) {
-		lastBatteryPercentage = round(getBatteryPercentage(batteryVoltage) / 5.0) * 5; // Round to nearest 5% to reduce flicker
+		lastBatteryPercentage = round(battery->GetPercentage() / 5.0) * 5; // Round to nearest 5% to reduce flicker
 		batteryUpdateTime.restart();
 	}
 

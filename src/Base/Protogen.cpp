@@ -20,11 +20,12 @@ bool Protogen::Init() {
 	settings.ResetSettings();
 #endif
 
+	battery.Init(&ums3);
 	stateManager.Init(&settings);
 	fan.Init(&settings);
 	mic.Init(&settings);
 	matrix.Init(&settings);
-	bool internalDisplaySuccess = internalDisplay.Init(&stateManager, &settings);
+	bool internalDisplaySuccess = internalDisplay.Init(&stateManager, &settings, &battery);
 	userControls.Init(&stateManager, &matrix, &fan, &settings);
 	bool gestureSensorSuccess = gestureSensor.Init();
 
@@ -62,20 +63,23 @@ void Protogen::Tick() {
 	if(stateManager.redrawNeeded) { // Update the screen if it needs to be
 		engine.Update(stateManager); // Turn the state into a bitmap
 		matrix.Update(engine.canvas.getBuffer()); // Update the LED matrix
-		internalDisplay.Update(engine.canvas.getBuffer(), ums3.getBatteryVoltage()); // Update the internal HUD
+		internalDisplay.Update(engine.canvas.getBuffer()); // Update the internal HUD
 	} else if(stateManager.internalOnlyRedrawNeeded) { // Redraw the internal HUD only if needed
 		stateManager.internalOnlyRedrawNeeded = false;
-		internalDisplay.Update(engine.canvas.getBuffer(), ums3.getBatteryVoltage());
+		internalDisplay.Update(engine.canvas.getBuffer());
 	}
 }
 
 void Protogen::HardwareTest() {
 	Serial.println("Testing UMS3...");
-	Serial.printf("Battery voltage: %.2fV\n", ums3.getBatteryVoltage());
 	Serial.printf("VBUS Present: %s\n", ums3.getVbusPresent() ? "Yes" : "No");
 	ums3.setPixelPower(true);
 	ums3.setPixelColor(0x00FF00); // Set to green
 	ums3.setPixelBrightness(255);
+	delay(2500);
+
+	Serial.println("Testing battery...");
+	battery.HardwareTest();
 	delay(2500);
 
 	Serial.println("Testing fan..."); // and thus also testing the level shifter

@@ -6,6 +6,7 @@
 #include <Devices/GestureSensor.h>
 #include <Devices/Fan.h>
 #include <Devices/Microphone.h>
+#include <Devices/Battery.h>
 #include <RenderEngine.h>
 #include <UserControls.h>
 #include <UMS3.h>
@@ -22,6 +23,7 @@ class Protogen {
 		UserControls userControls;
 		Fan fan;
 		Microphone mic;
+		Battery battery;
 
 		bool fullyInitialised = false;
 

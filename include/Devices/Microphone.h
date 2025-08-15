@@ -7,7 +7,7 @@ class Microphone {
 	public:
 		void Init(Settings *settings);
 
-		uint8_t gain = 0; // 40 or 50
+		uint8_t gain = 40; // 40 or 50
 		void SetGain(uint8_t newGain);
 
         void HardwareTest();
