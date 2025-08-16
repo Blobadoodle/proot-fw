@@ -100,7 +100,6 @@ void Protogen::HardwareTest() {
 	mic.HardwareTest();
 	delay(2500);
 
-	// this will enter an error loop if the gesture sensor is not connected/broken, cry about it
 	Serial.println("Testing gesture sensor...");
 	gestureSensor.HardwareTest();
 	delay(2500);
