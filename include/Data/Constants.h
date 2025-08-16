@@ -23,3 +23,12 @@
 // Used for the settings stored in the EEPROM
 #define LATEST_SETTINGS_REVISION 0
 #define SETTINGS_MAGIC "ProotFW"
+
+// Used for RGB LEDs
+#define RGBLED_CHEEK_NUM 24
+
+// Pins for UMS3 stuff
+#define LDO2_EN 17
+#define PIXEL_DATA 18
+#define VBAT 10
+#define VBUS_PRESENT 33

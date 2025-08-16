@@ -1,5 +1,6 @@
 #include <Devices/Battery.h>
 #include <Data/Configuration.h>
+#include <Data/Constants.h>
 #include <Arduino.h>
 
 // https://github.com/rlogiacco/BatterySense/blob/master/Battery.h line 101
@@ -14,12 +15,20 @@ static inline uint8_t sigmoidal(uint16_t voltage, uint16_t minVoltage, uint16_t 
 	return result >= 100 ? 100 : result;
 }
 
-void Battery::Init(UMS3 *_ums3) {
-	ums3 = _ums3;
+
+void Battery::Init() {
+	pinMode(VBAT, INPUT);
 }
 
+// https://github.com/UnexpectedMaker/esp32s3-arduino-helper/blob/main/src/UMS3.h line 210
 float Battery::GetVoltage() {
-	return ums3->getBatteryVoltage();
+	uint32_t millivolts = analogReadMilliVolts(VBAT);
+
+	const uint32_t upper_divider = 442;
+	const uint32_t lower_divider = 160;
+	float voltage = (float)(upper_divider + lower_divider) / lower_divider / 1000 * millivolts;
+
+	return voltage;
 }
 
 uint8_t Battery::GetPercentage() {

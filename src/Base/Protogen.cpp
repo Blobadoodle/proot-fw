@@ -10,21 +10,24 @@ bool Protogen::Init() {
 #endif
 	Serial.printf("Initialising %s %s...\n", FIRMWARE_NAME, FIRMWARE_VERSION);
 
-	ums3.begin();
-	ums3.setPixelPower(false);
-	ums3.setLDO2Power(true);
-
 	bool settingSuccess = settings.Init();
 #ifdef RESET_EEPROM
 	Serial.println("Resetting EEPROM due to firmware flag.");
 	settings.ResetSettings();
 #endif
 
-	battery.Init(&ums3);
+	pinMode(LDO2_EN, OUTPUT);
+	digitalWrite(LDO2_EN, HIGH);
+	
+	FastLED.addLeds<NEOPIXEL, PIXEL_DATA>(&pixel, 1);
+	pixel = CRGB::Black;
+
+	battery.Init();
 	stateManager.Init(&settings);
 	fan.Init(&settings);
 	mic.Init(&settings);
 	matrix.Init(&settings);
+	rgbled.Init();
 	bool internalDisplaySuccess = internalDisplay.Init(&stateManager, &settings, &battery);
 	userControls.Init(&stateManager, &matrix, &fan, &settings);
 	bool gestureSensorSuccess = gestureSensor.Init();
@@ -43,9 +46,8 @@ bool Protogen::Init() {
 
 	// Show red LED if initialisation failed
 	if(!fullyInitialised) {
-		ums3.setPixelPower(true);
-		ums3.setPixelColor(0xFF0000);
-		ums3.setPixelBrightness(255);
+		pixel = CRGB::Red;
+		FastLED.show();
 	}
 
 #ifdef HARDWARE_TEST
@@ -71,11 +73,8 @@ void Protogen::Tick() {
 }
 
 void Protogen::HardwareTest() {
-	Serial.println("Testing UMS3...");
-	Serial.printf("VBUS Present: %s\n", ums3.getVbusPresent() ? "Yes" : "No");
-	ums3.setPixelPower(true);
-	ums3.setPixelColor(0x00FF00); // Set to green
-	ums3.setPixelBrightness(255);
+	Serial.println("Testing RGB LEDs...");
+	rgbled.HardwareTest();
 	delay(2500);
 
 	Serial.println("Testing battery...");

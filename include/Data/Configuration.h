@@ -58,3 +58,11 @@
 #define WAIT_FOR_SERIAL
 // Reset EEPROM on startup
 // #define RESET_EEPROM
+
+// Pins for RGB LEDs
+#define RGBLED_RIGHT_CHEEK_PIN 12
+#define RGBLED_LEFT_CHEEK_PIN 13
+
+// Self explanatory, 0->255
+// TODO: Move to settings, replace mic gain setting
+#define RGBLED_BRIGHTNESS 16
