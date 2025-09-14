@@ -70,6 +70,8 @@ void Protogen::Tick() {
 		stateManager.internalOnlyRedrawNeeded = false;
 		internalDisplay.Update(engine.canvas.getBuffer());
 	}
+
+	rgbled.Tick(); // Update the RGB LEDs
 }
 
 void Protogen::HardwareTest() {

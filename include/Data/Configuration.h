@@ -1,8 +1,5 @@
 #pragma once
 
-// Rotation of internal OLED
-#define INTERNAL_DISPLAY_ROTATION 2
-
 // CS/LOAD Pin for MAX7219's
 #define MATRIX_CS 34
 
@@ -27,6 +24,8 @@
 #define SH1107_DC 41
 #define SH1107_RST -1
 #define SH1107_CS 42
+// Rotation of internal OLED
+#define INTERNAL_DISPLAY_ROTATION 1
 
 // Pin for control button
 #define BUTTON_PIN 21
@@ -52,17 +51,20 @@
 #define MIC_INPUT 15
 #define MIC_GAIN 16
 
-// Perform a hardware test on startup
-#define HARDWARE_TEST
-// Debug, not init until serial connection
-#define WAIT_FOR_SERIAL
-// Reset EEPROM on startup
-// #define RESET_EEPROM
-
 // Pins for RGB LEDs
 #define RGBLED_RIGHT_CHEEK_PIN 12
 #define RGBLED_LEFT_CHEEK_PIN 13
 
 // Self explanatory, 0->255
 // TODO: Move to settings, replace mic gain setting
-#define RGBLED_BRIGHTNESS 16
+#define RGBLED_BRIGHTNESS 255
+
+// How often to update the RGB LEDs (ms)
+#define RGBLED_FRAME_TIME 100
+
+// Perform a hardware test on startup
+// #define HARDWARE_TEST
+// Debug, not init until serial connection
+// #define WAIT_FOR_SERIAL
+// Reset EEPROM on startup
+// #define RESET_EEPROM
