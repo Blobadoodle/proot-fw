@@ -44,10 +44,11 @@ bool Protogen::Init() {
 		fullyInitialised = false;
 	}
 
-	// Show red LED if initialisation failed
+	// Show red LED if initialisation failed + error icon on internal display
 	if(!fullyInitialised) {
 		pixel = CRGB::Red;
 		FastLED.show();
+		internalDisplay.showError = true;
 	}
 
 #ifdef HARDWARE_TEST

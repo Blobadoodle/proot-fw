@@ -60,17 +60,26 @@ void InternalDisplay::Update(const uint8_t *bitmap) {
 	display.setTextColor(SH110X_BLACK, SH110X_WHITE);
 	display.print(FIRMWARE_VERSION);
 
-	// Draw battery percentage
-	display.setCursor(87, 1);
-
 	// Only update battery if atleast 15 seconds have passed since last battery as ADC inaccuracies can cause the % to flicker
 	if(batteryUpdateTime.hasPassed(BATTERY_UPDATE_TIME)) {
 		lastBatteryPercentage = round(battery->GetPercentage() / 5.0) * 5; // Round to nearest 5% to reduce flicker
 		batteryUpdateTime.restart();
 	}
 
-	display.printf("%d%%", lastBatteryPercentage);
+
+	// Right align battery percentage
+	char batteryStr[5];
+	sprintf(batteryStr, "%d%%", lastBatteryPercentage);
+	uint8_t pixelWidth = (6 * strlen(batteryStr)) - 1; // Each char is 6 pixels wide, minus 1 to account for no trailing space on last char
+	display.setCursor((109 - pixelWidth), 1);
+	
+	// Draw battery percentage
+	display.print(batteryStr);
 	display.fillRect(113, 3, lastBatteryPercentage / 10, 3, SH110X_BLACK); // Draw battery icon level
+
+	// Draw error icon if initialisation failed
+	if(showError)
+		display.drawBitmap((109 - pixelWidth) - 10, 0, Bitmaps::InternalDisplay::Error, 9, 9, SH110X_WHITE, SH110X_BLACK);
 
 	display.setTextColor(SH110X_WHITE, SH110X_BLACK);
 
@@ -95,9 +104,9 @@ void InternalDisplay::Update(const uint8_t *bitmap) {
 	display.printf("%d", settings->data.defaultExpression + 1);
 
 	// TODO: Find a better way of splitting the individual face parts out, rather than just drawing it thrice and covering it with a mask
-	for(uint8_t i = 0; i < 3; i++) {
+	for(uint8_t i = 0; i < 3; i++)
 		display.drawBitmap(8, 16 + (8 * i), bitmap, BITMAP_SIZE, 8, SH110X_WHITE);
-	}
+
 	display.drawBitmap(8, 16, Bitmaps::InternalDisplay::UIMask, BITMAP_SIZE, 24, SH110X_BLACK);
 
 	// Draw the expression names
