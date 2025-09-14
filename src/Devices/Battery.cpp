@@ -26,9 +26,8 @@ float Battery::GetVoltage() {
 
 	const uint32_t upper_divider = 442;
 	const uint32_t lower_divider = 160;
-	float voltage = (float)(upper_divider + lower_divider) / lower_divider / 1000 * millivolts;
 
-	return voltage;
+	return (float)(upper_divider + lower_divider) / lower_divider / 1000 * millivolts;
 }
 
 uint8_t Battery::GetPercentage() {
