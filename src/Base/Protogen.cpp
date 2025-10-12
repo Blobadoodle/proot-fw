@@ -62,7 +62,10 @@ bool Protogen::Init() {
 void Protogen::Tick() {
 	userControls.Tick(); // Check for button presses
 
-	stateManager.Update(gestureSensor.CheckForBoop(), mic.GetAmplitude()); // Check if the screen should be updated (boop, expression change, blink, maw glitch/stage)
+	// Compute voice FFT and stuff
+	mic.Sample();
+
+	stateManager.Update(gestureSensor.CheckForBoop(), mic.voicePower); // Check if the screen should be updated (boop, expression change, blink, maw glitch/stage)
 
 	if(stateManager.redrawNeeded) { // Update the screen if it needs to be
 		engine.Update(stateManager); // Turn the state into a bitmap

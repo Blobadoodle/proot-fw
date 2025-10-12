@@ -2,6 +2,8 @@
 
 #include <cstdint>
 #include <Settings.h>
+#include <Data/Constants.h>
+#include <arduinoFFT.h>
 
 class Microphone {
 	public:
@@ -13,6 +15,16 @@ class Microphone {
         void HardwareTest();
 
 		int GetAmplitude();
+		void Sample();
+		double voicePower = 0;
+	protected:
+		uint32_t lastSample = 0;
+		uint32_t sampleIndex = 0;
 
-        // TODO: FFT spectrum analyser output
+		double vReal[FFT_SAMPLES];
+		double vImag[FFT_SAMPLES];
+
+		ArduinoFFT<double> FFT = ArduinoFFT<double>(vReal, vImag, FFT_SAMPLES, FFT_SAMPLE_RATE);
+
+		void ComputeVoicePower();
 };

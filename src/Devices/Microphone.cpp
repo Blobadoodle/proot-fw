@@ -1,6 +1,9 @@
 #include <Devices/Microphone.h>
 #include <Data/Configuration.h>
+#include <Data/Constants.h>
 #include <Arduino.h>
+
+#define SAMPLE_PERIOD 1000000 / FFT_SAMPLE_RATE
 
 void Microphone::Init(Settings *settings) {
 	pinMode(MIC_INPUT, INPUT);
@@ -23,6 +26,41 @@ void Microphone::SetGain(uint8_t newGain) {
 
 int Microphone::GetAmplitude() {
     return analogRead(MIC_INPUT);
+}
+
+void Microphone::ComputeVoicePower() {
+    FFT.dcRemoval();
+    FFT.windowing(FFTWindow::Hamming, FFTDirection::Forward);
+    FFT.compute(FFTDirection::Forward);
+    FFT.complexToMagnitude();
+
+    voicePower = 0;
+    uint16_t count = 0;
+    for (int i = 0; i < FFT_SAMPLES / 2; i++) {
+        double frequency = (i * FFT_SAMPLE_RATE) / FFT_SAMPLES;
+        if(frequency >= 300 && frequency <= 3000) { // Human voice range
+            voicePower += vReal[i];
+            count++;
+        }
+    }
+
+    voicePower = voicePower / (double)count;
+    Serial.printf("%f\n", voicePower);
+    sampleIndex = 0;
+}
+
+void Microphone::Sample() {
+    uint32_t now = micros();
+    
+    if(now - lastSample >= SAMPLE_PERIOD) {
+        lastSample = now;
+        vReal[sampleIndex] = GetAmplitude() - 2048;
+        vImag[sampleIndex] = 0;
+        sampleIndex++;
+    }
+
+    if(sampleIndex >= FFT_SAMPLES)
+        ComputeVoicePower();
 }
 
 void Microphone::HardwareTest() {

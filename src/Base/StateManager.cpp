@@ -50,7 +50,7 @@ void StateManager::Blink() {
 	}
 }
 
-void StateManager::Update(bool boopPresent, int micAmplitude) {
+void StateManager::Update(bool boopPresent, double voicePower) {
 	redrawNeeded = false;
 
 	if(isMawGlitching) {
@@ -86,19 +86,17 @@ void StateManager::Update(bool boopPresent, int micAmplitude) {
 	}
 
 	lastMawStage = mawStage;
-	if(micAmplitude > MAW_THRESHOLD_3) {
+	if(voicePower > MAW_THRESHOLD_3)
 		mawStage = MAW_THRESHOLD_3;
-	} else if (micAmplitude > MAW_THRESHOLD_2) {
+	else if (voicePower > MAW_THRESHOLD_2)
 		mawStage = MAW_THRESHOLD_2;
-	} else if (micAmplitude > MAW_THRESHOLD_1) {
+	else if (voicePower > MAW_THRESHOLD_1)
 		mawStage = MAW_THRESHOLD_1;
-	} else {
+	else
 		mawStage = 0;
-	}
 
-	if(lastMawStage != mawStage) {
+	if(lastMawStage != mawStage)
 		redrawNeeded = true;	
-	}
 
 	if(hasExpressionChangedInbetweenFrames)
 		hasExpressionChangedInbetweenFrames = false;

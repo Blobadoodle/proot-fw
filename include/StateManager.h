@@ -18,7 +18,7 @@
 class StateManager {
 	public:
 		void Init(Settings *_settings);
-		void Update(bool boopPresent, int micAmplitude);
+		void Update(bool boopPresent, double voicePower);
 		void SetExpression(uint8_t expressionNum);
 
 		uint8_t mawGlitchStep = 0;

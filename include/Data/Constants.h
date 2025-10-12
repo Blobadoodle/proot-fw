@@ -34,3 +34,7 @@
 #define PIXEL_DATA 18
 #define VBAT 10
 #define VBUS_PRESENT 33
+
+// FFT stuff
+#define FFT_SAMPLES 256
+#define FFT_SAMPLE_RATE 8000
