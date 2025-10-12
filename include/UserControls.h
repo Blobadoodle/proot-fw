@@ -3,11 +3,12 @@
 #include <StateManager.h>
 #include <Devices/Display/LEDMatrix.h>
 #include <Devices/Fan.h>
+#include <Devices/Display/RGBLED.h>
 #include <Settings.h>
 
 class UserControls {
 	public:
-		void Init(StateManager *_state, LEDMatrix *_matrix, Fan *_fan, Settings *_settings);
+		void Init(StateManager *_state, LEDMatrix *_matrix, Fan *_fan, Settings *_settings, RGBLED *_rgbled);
 		void Tick();
 
 	protected:
@@ -16,6 +17,7 @@ class UserControls {
 		LEDMatrix *matrix;
 		Fan *fan;
 		Settings *settings;
+		RGBLED *rgbled;
 
 		bool unsavedSettings = false;
 

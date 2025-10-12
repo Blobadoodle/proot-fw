@@ -22,14 +22,15 @@ bool Protogen::Init() {
 	FastLED.addLeds<NEOPIXEL, PIXEL_DATA>(&pixel, 1);
 	pixel = CRGB::Black;
 
+	// TODO: This sucks
 	battery.Init();
 	stateManager.Init(&settings);
 	fan.Init(&settings);
 	mic.Init(&settings);
 	matrix.Init(&settings);
-	rgbled.Init();
+	rgbled.Init(&settings);
 	bool internalDisplaySuccess = internalDisplay.Init(&stateManager, &settings, &battery);
-	userControls.Init(&stateManager, &matrix, &fan, &settings);
+	userControls.Init(&stateManager, &matrix, &fan, &settings, &rgbled);
 	bool gestureSensorSuccess = gestureSensor.Init();
 
 	if(settingSuccess && internalDisplaySuccess && gestureSensorSuccess) {
@@ -76,6 +77,10 @@ void Protogen::Tick() {
 }
 
 void Protogen::HardwareTest() {
+	Serial.println("Testing gesture sensor...");
+	gestureSensor.HardwareTest();
+	delay(2500);
+
 	Serial.println("Testing RGB LEDs...");
 	rgbled.HardwareTest();
 	delay(2500);
@@ -101,10 +106,6 @@ void Protogen::HardwareTest() {
 
 	Serial.println("Testing microphone...");
 	mic.HardwareTest();
-	delay(2500);
-
-	Serial.println("Testing gesture sensor...");
-	gestureSensor.HardwareTest();
 	delay(2500);
 
 	Serial.println("Test complete! Restarting in 5 seconds...");

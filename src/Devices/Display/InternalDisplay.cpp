@@ -66,7 +66,6 @@ void InternalDisplay::Update(const uint8_t *bitmap) {
 		batteryUpdateTime.restart();
 	}
 
-
 	// Right align battery percentage
 	char batteryStr[5];
 	sprintf(batteryStr, "%d%%", lastBatteryPercentage);
@@ -87,9 +86,9 @@ void InternalDisplay::Update(const uint8_t *bitmap) {
 	display.setCursor(3, 82);
 	display.print(FIRMWARE_NAME);
 
-	// Draw mic gain
+	// Draw rgb brightness
 	display.setCursor(104, 82);
-	display.printf("%d", settings->data.defaultMicGain);
+	display.printf("%d", settings->data.defaultRgbBrightness);
 
 	// Draw fan percentage
 	display.setCursor(104, 94);

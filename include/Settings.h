@@ -20,14 +20,14 @@ struct SettingsHeader {
 
 struct SettingsData {
 	struct SettingsHeader header;
-	uint8_t defaultMicGain;
+	uint8_t defaultRgbBrightness;
 	uint8_t defaultBrightness;
 	uint8_t defaultFanSpeed;
 	uint8_t defaultExpression;
 	
 	SettingsData() { // Default values
 		header = SettingsHeader();
-		defaultMicGain = 40;
+		defaultRgbBrightness = 1;
 		defaultBrightness = 1;
 		defaultFanSpeed = 0;
 		defaultExpression = EXPRESSION_HAPPY;

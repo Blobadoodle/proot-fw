@@ -16,7 +16,7 @@
 // Interrupt pin for gesture sensor
 #define APDS_INT 7
 // How close hand has to be to register boop, 0->255
-#define BOOP_THRESHOLD 40
+#define BOOP_THRESHOLD 36
 // How long a boop should last (ms)
 #define BOOP_COOLDOWN 2000
 
@@ -49,7 +49,9 @@
 
 // Pins for MAX9814 microphone
 #define MIC_INPUT 15
-#define MIC_GAIN 16
+#define MIC_GAIN_PIN 16
+// Valid mic gain values are 40 or 50
+#define MIC_GAIN_VALUE 40
 
 // Pins for RGB LEDs
 #define RGBLED_RIGHT_CHEEK_PIN 12

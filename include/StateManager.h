@@ -7,7 +7,7 @@
 #define FOCUS_EXPRESSION 0 
 #define FOCUS_QUICKSETTINGS 1
 
-#define QUICKSETTING_MIC_GAIN 0
+#define QUICKSETTING_RGB_BRIGHTNESS 0
 #define QUICKSETTING_FAN 1
 #define QUICKSETTING_BRIGHTNESS 2
 #define QUICKSETTING_DEFAULT_EXPRESSION 3
@@ -38,7 +38,7 @@ class StateManager {
 
 		// Internal display UI stuff
 		uint8_t focus = FOCUS_EXPRESSION;
-		uint8_t selectedQuickSetting = QUICKSETTING_MIC_GAIN;
+		uint8_t selectedQuickSetting = QUICKSETTING_RGB_BRIGHTNESS;
 	protected:
 		Chrono blinkTimer = Chrono();
 		Chrono blinkFrameTimer = Chrono();

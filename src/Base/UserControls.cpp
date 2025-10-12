@@ -14,12 +14,14 @@ void UserControls::OnClick() {
 		#endif
 	} else {
 		switch(state->selectedQuickSetting) {
-			case QUICKSETTING_MIC_GAIN:
-				if(settings->data.defaultMicGain == 40)
-					settings->data.defaultMicGain = 50;
+			case QUICKSETTING_RGB_BRIGHTNESS:
+				if(rgbled->brightness >= 15)
+					rgbled->SetBrightness(1);
 				else
-					settings->data.defaultMicGain = 40;
-				break;
+					rgbled->SetBrightness(rgbled->brightness + 1);
+				settings->data.defaultRgbBrightness = rgbled->brightness;
+				break;		
+
 			case QUICKSETTING_FAN:
 				if(fan->fanSpeed >= 10)
 					fan->SetFanSpeed(0);
@@ -27,6 +29,7 @@ void UserControls::OnClick() {
 					fan->SetFanSpeed(fan->fanSpeed + 1);
 				settings->data.defaultFanSpeed = fan->fanSpeed;
 				break;
+
 			case QUICKSETTING_BRIGHTNESS:
 				if(matrix->brightness >= 15)
 					matrix->SetBrightness(1);
@@ -34,6 +37,7 @@ void UserControls::OnClick() {
 					matrix->SetBrightness(matrix->brightness + 1);
 				settings->data.defaultBrightness = matrix->brightness;
 				break;
+
 			case QUICKSETTING_DEFAULT_EXPRESSION:
 				if(settings->data.defaultExpression >= NUM_OF_EXPRESSIONS - 1)
 					settings->data.defaultExpression = 0;
@@ -47,7 +51,7 @@ void UserControls::OnClick() {
 
 void UserControls::OnLongClick() {
 	if(state->focus == FOCUS_EXPRESSION) {
-		state->selectedQuickSetting = QUICKSETTING_MIC_GAIN;
+		state->selectedQuickSetting = QUICKSETTING_RGB_BRIGHTNESS;
 		state->focus = FOCUS_QUICKSETTINGS;
 	} else {
 		state->focus = FOCUS_EXPRESSION;
@@ -62,7 +66,7 @@ void UserControls::OnLongClick() {
 void UserControls::OnDoubleClick() {
 	if(state->focus == FOCUS_QUICKSETTINGS) {
 		if(state->selectedQuickSetting >= QUICKSETTING_DEFAULT_EXPRESSION)
-			state->selectedQuickSetting = QUICKSETTING_MIC_GAIN;
+			state->selectedQuickSetting = QUICKSETTING_RGB_BRIGHTNESS;
 		else
 			state->selectedQuickSetting++;
 
@@ -82,11 +86,12 @@ void UserControls::OnMultiClick() {
 		state->SetExpression(numClicks - 1);
 }
 
-void UserControls::Init(StateManager *_state, LEDMatrix *_matrix, Fan *_fan, Settings *_settings) {
+void UserControls::Init(StateManager *_state, LEDMatrix *_matrix, Fan *_fan, Settings *_settings, RGBLED *_rgbled) {
 	state = _state;
 	matrix = _matrix;
 	fan = _fan;
 	settings = _settings;
+	rgbled = _rgbled;
 
 	button.setup(
 		BUTTON_PIN,

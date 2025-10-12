@@ -25,7 +25,9 @@
 #define SETTINGS_MAGIC "ProotFW"
 
 // Used for RGB LEDs
-#define RGBLED_CHEEK_NUM 24
+#define RGBLED_CHEEK_NUM 37
+#define CHEEK_OUTER_SIZE 24
+#define CHEEK_INNER_SIZE 12
 
 // Pins for UMS3 stuff
 #define LDO2_EN 17
