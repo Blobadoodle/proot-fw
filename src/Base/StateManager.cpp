@@ -50,7 +50,7 @@ void StateManager::Blink() {
 	}
 }
 
-void StateManager::Update(bool boopPresent) {
+void StateManager::Update(bool boopPresent, int micAmplitude) {
 	redrawNeeded = false;
 
 	if(isMawGlitching) {
@@ -79,11 +79,25 @@ void StateManager::Update(bool boopPresent) {
 		isBooping = true;
 		boopTimer.restart();
 		redrawNeeded = true;
-
 	} else if(!boopPresent && isBooping && boopTimer.hasPassed(BOOP_COOLDOWN)) {
 		currentExpression = lastExpression;
 		isBooping = false;
 		redrawNeeded = true;
+	}
+
+	lastMawStage = mawStage;
+	if(micAmplitude > MAW_THRESHOLD_3) {
+		mawStage = MAW_THRESHOLD_3;
+	} else if (micAmplitude > MAW_THRESHOLD_2) {
+		mawStage = MAW_THRESHOLD_2;
+	} else if (micAmplitude > MAW_THRESHOLD_1) {
+		mawStage = MAW_THRESHOLD_1;
+	} else {
+		mawStage = 0;
+	}
+
+	if(lastMawStage != mawStage) {
+		redrawNeeded = true;	
 	}
 
 	if(hasExpressionChangedInbetweenFrames)

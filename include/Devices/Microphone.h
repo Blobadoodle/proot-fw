@@ -12,6 +12,7 @@ class Microphone {
 
         void HardwareTest();
 
+		int GetAmplitude();
+
         // TODO: FFT spectrum analyser output
-        // TODO: Audio level meter output (3 mouth stages)
 };

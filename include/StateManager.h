@@ -18,7 +18,7 @@
 class StateManager {
 	public:
 		void Init(Settings *_settings);
-		void Update(bool boopPresent);
+		void Update(bool boopPresent, int micAmplitude);
 		void SetExpression(uint8_t expressionNum);
 
 		uint8_t mawGlitchStep = 0;
@@ -31,7 +31,7 @@ class StateManager {
 		bool redrawNeeded = false;
 		bool internalOnlyRedrawNeeded = false;
 
-		uint8_t micGain = 40;
+		int mawStage = 0;
 
 		uint8_t currentExpression;
 		uint8_t lastExpression;
@@ -42,8 +42,11 @@ class StateManager {
 	protected:
 		Chrono blinkTimer = Chrono();
 		Chrono blinkFrameTimer = Chrono();
+
 		Chrono glitchTimer = Chrono();
 		Chrono glitchFrameTimer = Chrono();
+		
+		int lastMawStage = 0;
 	
 		Chrono boopTimer = Chrono();
 

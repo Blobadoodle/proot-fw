@@ -21,6 +21,10 @@ void Microphone::SetGain(uint8_t newGain) {
 	gain = newGain;
 }
 
+int Microphone::GetAmplitude() {
+    return analogRead(MIC_INPUT);
+}
+
 void Microphone::HardwareTest() {
     uint16_t micInput = analogRead(MIC_INPUT);
 

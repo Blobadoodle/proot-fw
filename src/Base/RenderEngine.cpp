@@ -59,10 +59,26 @@ void RenderEngine::Blink(int8_t blinkPos) {
 }
 
 void RenderEngine::GlitchMaw(uint8_t mawGlitchStep) {
-	if(mawGlitchStep == 0) {
+	if(mawGlitchStep == 0)
 		DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Glitch1, MAW_POS, MAW_SIZE);
-	} else if(mawGlitchStep == 1) {
+	else if(mawGlitchStep == 1)
 		DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Glitch2, MAW_POS, MAW_SIZE);
+}
+
+void RenderEngine::DrawMaw(int mawStage) {
+	switch(mawStage) {
+		case 0:
+			DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Normal, MAW_POS, MAW_SIZE);
+			break;
+		case MAW_THRESHOLD_1:
+			DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Stage1, MAW_POS, MAW_SIZE);
+			break;
+		case MAW_THRESHOLD_2:
+			DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Stage2, MAW_POS, MAW_SIZE);
+			break;
+		case MAW_THRESHOLD_3:
+			DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Stage3, MAW_POS, MAW_SIZE);
+			break;
 	}
 }
 
@@ -70,7 +86,6 @@ void RenderEngine::Update(StateManager state) {
 	canvas.fillScreen(LOW);
 
 	// Draw eye and blink
-	// DrawBitmapMirrored(Bitmaps::LEDMatrix::Eyes::Happy, EYE_POS, EYE_SIZE);
 	DrawBitmapMirrored(Expressions[state.currentExpression].eyeBitmap, EYE_POS, EYE_SIZE);
 	if(state.isBlinking)
 		Blink(state.blinkPos);
@@ -82,5 +97,5 @@ void RenderEngine::Update(StateManager state) {
 	if(state.isMawGlitching)
 		GlitchMaw(state.mawGlitchStep);
 	else
-		DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Normal, MAW_POS, MAW_SIZE);
+		DrawMaw(state.mawStage);
 }
