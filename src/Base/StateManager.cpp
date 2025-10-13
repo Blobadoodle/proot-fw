@@ -110,7 +110,7 @@ void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
 	glitchFrameTimer.stop();
 	boopTimer.stop();
 
-	currentExpression = settings->data.defaultExpression;
+	currentExpression = DEFAULT_EXPRESSION;
 	lastExpression = currentExpression;
 	targetExpression = currentExpression;
 

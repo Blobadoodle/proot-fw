@@ -38,11 +38,9 @@ void UserControls::OnClick() {
 				settings->data.defaultBrightness = matrix->brightness;
 				break;
 
-			case QUICKSETTING_DEFAULT_EXPRESSION:
-				if(settings->data.defaultExpression >= NUM_OF_EXPRESSIONS - 1)
-					settings->data.defaultExpression = 0;
-				else
-					settings->data.defaultExpression++;
+			case QUICKSETTING_MIC:
+				settings->data.micToggle = !settings->data.micToggle;
+				mic->Toggle(settings->data.micToggle);
 		}
 		state->internalOnlyRedrawNeeded = true;
 		unsavedSettings = true;
@@ -65,7 +63,7 @@ void UserControls::OnLongClick() {
 
 void UserControls::OnDoubleClick() {
 	if(state->focus == FOCUS_QUICKSETTINGS) {
-		if(state->selectedQuickSetting >= QUICKSETTING_DEFAULT_EXPRESSION)
+		if(state->selectedQuickSetting >= QUICKSETTING_MIC)
 			state->selectedQuickSetting = QUICKSETTING_RGB_BRIGHTNESS;
 		else
 			state->selectedQuickSetting++;
@@ -86,12 +84,13 @@ void UserControls::OnMultiClick() {
 		state->SetExpression(numClicks - 1);
 }
 
-void UserControls::Init(StateManager *_state, LEDMatrix *_matrix, Fan *_fan, Settings *_settings, RGBLED *_rgbled) {
+void UserControls::Init(StateManager *_state, LEDMatrix *_matrix, Fan *_fan, Settings *_settings, RGBLED *_rgbled, Microphone *_mic) {
 	state = _state;
 	matrix = _matrix;
 	fan = _fan;
 	settings = _settings;
 	rgbled = _rgbled;
+	mic = _mic;
 
 	button.setup(
 		BUTTON_PIN,

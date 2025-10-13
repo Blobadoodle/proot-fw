@@ -31,7 +31,7 @@ bool Protogen::Init() {
 	matrix.Init(&settings);
 	rgbled.Init(&settings);
 	bool internalDisplaySuccess = internalDisplay.Init(&stateManager, &settings, &battery);
-	userControls.Init(&stateManager, &matrix, &fan, &settings, &rgbled);
+	userControls.Init(&stateManager, &matrix, &fan, &settings, &rgbled, &mic);
 
 	if(settingSuccess && internalDisplaySuccess && gestureSensorSuccess) {
 		Serial.println("Successfully initialised!");

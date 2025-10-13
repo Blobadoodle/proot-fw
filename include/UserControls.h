@@ -4,11 +4,12 @@
 #include <Devices/Display/LEDMatrix.h>
 #include <Devices/Fan.h>
 #include <Devices/Display/RGBLED.h>
+#include <Devices/Microphone.h>
 #include <Settings.h>
 
 class UserControls {
 	public:
-		void Init(StateManager *_state, LEDMatrix *_matrix, Fan *_fan, Settings *_settings, RGBLED *_rgbled);
+		void Init(StateManager *_state, LEDMatrix *_matrix, Fan *_fan, Settings *_settings, RGBLED *_rgbled, Microphone *_mic);
 		void Tick();
 
 	protected:
@@ -18,6 +19,7 @@ class UserControls {
 		Fan *fan;
 		Settings *settings;
 		RGBLED *rgbled;
+		Microphone *mic;
 
 		bool unsavedSettings = false;
 

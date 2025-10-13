@@ -98,9 +98,17 @@ void InternalDisplay::Update(const uint8_t *bitmap) {
 	display.setCursor(104, 106);
 	display.printf("%d", settings->data.defaultBrightness);
 
-	// Draw the default startup expression
+	// Draw the mic toggle
 	display.setCursor(104, 118);
-	display.printf("%d", settings->data.defaultExpression + 1);
+	display.print(settings->data.micToggle ? "ON" : "OFF");
+
+	// Draw the mic level icons
+	if(state->mawStage >= MAW_THRESHOLD_1)
+		display.drawBitmap(10, 68, Bitmaps::InternalDisplay::Speaker1, 2, 6, SH110X_WHITE);
+	if(state->mawStage >= MAW_THRESHOLD_1)
+		display.drawBitmap(11, 66, Bitmaps::InternalDisplay::Speaker2, 3, 10, SH110X_WHITE);
+	if(state->mawStage >= MAW_THRESHOLD_1)
+		display.drawBitmap(12, 64, Bitmaps::InternalDisplay::Speaker3, 4, 14, SH110X_WHITE);
 
 	// TODO: Find a better way of splitting the individual face parts out, rather than just drawing it thrice and covering it with a mask
 	for(uint8_t i = 0; i < 3; i++)

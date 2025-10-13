@@ -8,7 +8,9 @@
 void Microphone::Init(Settings *settings) {
 	pinMode(MIC_INPUT, INPUT);
     pinMode(MIC_GAIN_PIN, OUTPUT);
-	SetGain(MIC_GAIN_VALUE);
+	
+    SetGain(MIC_GAIN_VALUE);
+    Toggle(settings->data.micToggle);
 }
 
 void Microphone::SetGain(uint8_t newGain) {
@@ -49,6 +51,9 @@ void Microphone::ComputeVoicePower() {
 }
 
 void Microphone::Sample() {
+    if(!enabled)
+        return;
+
     uint32_t now = micros();
     
     if(now - lastSample >= SAMPLE_PERIOD) {
@@ -60,6 +65,12 @@ void Microphone::Sample() {
 
     if(sampleIndex >= FFT_SAMPLES)
         ComputeVoicePower();
+}
+
+void Microphone::Toggle(bool _enabled) {
+    enabled = _enabled;
+    if(!enabled)
+        voicePower = 0;
 }
 
 void Microphone::HardwareTest() {

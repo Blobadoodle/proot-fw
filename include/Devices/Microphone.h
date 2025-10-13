@@ -12,6 +12,8 @@ class Microphone {
 		uint8_t gain = 40; // 40 or 50
 		void SetGain(uint8_t newGain);
 
+		void Toggle(bool _enabled);
+
         void HardwareTest();
 
 		int GetAmplitude();
@@ -27,4 +29,6 @@ class Microphone {
 		ArduinoFFT<double> FFT = ArduinoFFT<double>(vReal, vImag, FFT_SAMPLES, FFT_SAMPLE_RATE);
 
 		void ComputeVoicePower();
+
+		bool enabled = true;
 };

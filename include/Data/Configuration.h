@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Data/Expressions.h>
+
 // CS/LOAD Pin for MAX7219's
 #define MATRIX_CS 34
 
@@ -12,6 +14,9 @@
 #define GLITCH_TIME 7000
 // How long each maw glitch frame should show for (ms)
 #define GLITCH_FRAME_TIME 100
+
+// Default expression
+#define DEFAULT_EXPRESSION EXPRESSION_HAPPY
 
 // Interrupt pin for gesture sensor
 #define APDS_INT 7

@@ -23,14 +23,14 @@ struct SettingsData {
 	uint8_t defaultRgbBrightness;
 	uint8_t defaultBrightness;
 	uint8_t defaultFanSpeed;
-	uint8_t defaultExpression;
+	bool micToggle;
 	
 	SettingsData() { // Default values
 		header = SettingsHeader();
 		defaultRgbBrightness = 1;
 		defaultBrightness = 1;
 		defaultFanSpeed = 0;
-		defaultExpression = EXPRESSION_HAPPY;
+		micToggle = true;
 	}
 };
 
