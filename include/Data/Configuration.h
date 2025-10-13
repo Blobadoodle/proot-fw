@@ -67,7 +67,6 @@
 #define RGBLED_LEFT_CHEEK_PIN 13
 
 // Self explanatory, 0->255
-// TODO: Move to settings, replace mic gain setting
 #define RGBLED_BRIGHTNESS 255
 
 // How often to update the RGB LEDs (ms)
