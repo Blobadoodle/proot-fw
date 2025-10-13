@@ -24,14 +24,14 @@ bool Protogen::Init() {
 
 	// TODO: This sucks
 	battery.Init();
-	stateManager.Init(&settings);
+	bool gestureSensorSuccess = gestureSensor.Init();
+	stateManager.Init(&settings, &gestureSensor);
 	fan.Init(&settings);
 	mic.Init(&settings);
 	matrix.Init(&settings);
 	rgbled.Init(&settings);
 	bool internalDisplaySuccess = internalDisplay.Init(&stateManager, &settings, &battery);
 	userControls.Init(&stateManager, &matrix, &fan, &settings, &rgbled);
-	bool gestureSensorSuccess = gestureSensor.Init();
 
 	if(settingSuccess && internalDisplaySuccess && gestureSensorSuccess) {
 		Serial.println("Successfully initialised!");

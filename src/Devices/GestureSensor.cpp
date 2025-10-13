@@ -26,6 +26,10 @@ bool GestureSensor::CheckForBoop() {
 	}
 }
 
+bool GestureSensor::HardCheckForBoop() {
+	return apds.readProximity() >= BOOP_THRESHOLD;
+}
+
 void GestureSensor::HardwareTest() {
 	apds.enableColor(true);
 

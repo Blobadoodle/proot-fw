@@ -73,7 +73,10 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 		blinkTimer.stop();
 	}
 
-	// TODO: Make this not flash every time BOOP_COOLDOWN is finished
+	// Fixes flashing every time BOOP_COOLDOWN is finished
+	if(!boopPresent && isBooping && gestureSensor->HardCheckForBoop())
+		boopTimer.restart();
+
 	if(boopPresent && !isBooping) {
 		currentExpression = EXPRESSION_VWV;
 		isBooping = true;
@@ -102,7 +105,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 		hasExpressionChangedInbetweenFrames = false;
 }
 
-void StateManager::Init(Settings *settings) {
+void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
 	blinkFrameTimer.stop();
 	glitchFrameTimer.stop();
 	boopTimer.stop();
@@ -110,6 +113,8 @@ void StateManager::Init(Settings *settings) {
 	currentExpression = settings->data.defaultExpression;
 	lastExpression = currentExpression;
 	targetExpression = currentExpression;
+
+	gestureSensor = _gestureSensor;
 }
 
 void StateManager::SetExpression(uint8_t expressionNum) {

@@ -45,7 +45,6 @@ void Microphone::ComputeVoicePower() {
     }
 
     voicePower = voicePower / (double)count;
-    Serial.printf("%f\n", voicePower);
     sampleIndex = 0;
 }
 

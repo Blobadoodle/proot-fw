@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <Chrono.h>
 #include <Settings.h>
+#include <Devices/GestureSensor.h>
 
 #define FOCUS_EXPRESSION 0 
 #define FOCUS_QUICKSETTINGS 1
@@ -17,7 +18,7 @@
 
 class StateManager {
 	public:
-		void Init(Settings *_settings);
+		void Init(Settings *settings, GestureSensor *_gestureSensor);
 		void Update(bool boopPresent, double voicePower);
 		void SetExpression(uint8_t expressionNum);
 
@@ -48,10 +49,10 @@ class StateManager {
 		
 		int lastMawStage = 0;
 	
+		GestureSensor *gestureSensor;
 		Chrono boopTimer = Chrono();
 
 		uint8_t blinkStep = 0;
-		uint32_t checkTime = 0;
 
 		bool hasExpressionChangedInbetweenFrames = false; // long ahh variable name
 
