@@ -9,15 +9,16 @@ bool Protogen::Init() {
 	delay(500);
 #endif
 	Serial.printf("Initialising %s %s...\n", FIRMWARE_NAME, FIRMWARE_VERSION);
+	
+	pinMode(LDO2_EN, OUTPUT);
+	digitalWrite(LDO2_EN, HIGH);
+	delay(500); // Wait for LDO2 to fully power up
 
 	bool settingSuccess = settings.Init();
 #ifdef RESET_EEPROM
 	Serial.println("Resetting EEPROM due to firmware flag.");
 	settings.ResetSettings();
 #endif
-
-	pinMode(LDO2_EN, OUTPUT);
-	digitalWrite(LDO2_EN, HIGH);
 	
 	FastLED.addLeds<NEOPIXEL, PIXEL_DATA>(&pixel, 1);
 	pixel = CRGB::Black;

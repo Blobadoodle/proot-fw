@@ -21,7 +21,7 @@
 // Interrupt pin for gesture sensor
 #define APDS_INT 7
 // How close hand has to be to register boop, 0->255
-#define BOOP_THRESHOLD 36
+#define BOOP_THRESHOLD 25
 // How long a boop should last (ms)
 #define BOOP_COOLDOWN 2000
 
@@ -75,6 +75,6 @@
 // Perform a hardware test on startup
 // #define HARDWARE_TEST
 // Debug, not init until serial connection
-// #define WAIT_FOR_SERIAL
+#define WAIT_FOR_SERIAL
 // Reset EEPROM on startup
 // #define RESET_EEPROM
