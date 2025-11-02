@@ -31,6 +31,7 @@ class StateManager {
 
 		bool redrawNeeded = false;
 		bool internalOnlyRedrawNeeded = false;
+		bool firstDrawDone = false;
 
 		int mawStage = 0;
 

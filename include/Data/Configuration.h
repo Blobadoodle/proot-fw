@@ -75,6 +75,6 @@
 // Perform a hardware test on startup
 // #define HARDWARE_TEST
 // Debug, not init until serial connection
-#define WAIT_FOR_SERIAL
+// #define WAIT_FOR_SERIAL
 // Reset EEPROM on startup
 // #define RESET_EEPROM
