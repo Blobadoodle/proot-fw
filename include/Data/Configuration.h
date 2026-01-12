@@ -58,9 +58,9 @@
 // Valid mic gain values are 40 or 50
 #define MIC_GAIN_VALUE 40
 // Maw stages
-#define MAW_THRESHOLD_1 350
-#define MAW_THRESHOLD_2 550
-#define MAW_THRESHOLD_3 700
+#define MAW_THRESHOLD_1 1300
+#define MAW_THRESHOLD_2 1500
+#define MAW_THRESHOLD_3 1700
 
 // Pins for RGB LEDs
 #define RGBLED_RIGHT_CHEEK_PIN 12
