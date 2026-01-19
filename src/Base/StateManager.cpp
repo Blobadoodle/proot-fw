@@ -2,14 +2,20 @@
 #include <Data/Configuration.h>
 #include <Arduino.h>
 
-void StateManager::GlitchMaw() {
+void StateManager::Glitch() {
 	if(glitchFrameTimer.hasPassed(GLITCH_FRAME_TIME)) {
 		redrawNeeded = true;
-		mawGlitchStep += 1;
+		glitchStep++;
 
-		if(mawGlitchStep == 2) {
-			isMawGlitching = false;
-			mawGlitchStep = 0;
+		if(glitchStep <= GLITCH_FRAME_NUM / 2)
+			glitchPos++;
+		else
+			glitchPos--;
+		
+		if(glitchStep == GLITCH_FRAME_NUM) {
+			isGlitching = false;
+			glitchStep = 0;
+			glitchPos = 0;
 			redrawNeeded = true;
 			glitchTimer.restart();
 			glitchFrameTimer.stop();
@@ -61,10 +67,10 @@ void StateManager::Blink() {
 void StateManager::Update(bool boopPresent, double voicePower) {
 	redrawNeeded = false;
 
-	if(isMawGlitching) {
-		GlitchMaw();
+	if(isGlitching) {
+		Glitch();
 	} else if(glitchTimer.hasPassed(GLITCH_TIME)) {
-		isMawGlitching = true;
+		isGlitching = true;
 		redrawNeeded = true;
 	
 		glitchFrameTimer.start();

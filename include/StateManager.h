@@ -22,11 +22,11 @@ class StateManager {
 		void Update(bool boopPresent, double voicePower);
 		void SetExpression(uint8_t expressionNum);
 
-		uint8_t mawGlitchStep = 0;
+		uint8_t glitchPos = 0;
 		int8_t blinkPos = -4;
 
 		bool isBlinking = false;
-		bool isMawGlitching = false;
+		bool isGlitching = false;
 		bool isBooping = false;
 
 		bool redrawNeeded = false;
@@ -54,12 +54,13 @@ class StateManager {
 		GestureSensor *gestureSensor;
 		Chrono boopTimer = Chrono();
 
+		uint8_t glitchStep = 0;
 		uint8_t blinkStep = 0;
 
 		bool hasExpressionChangedInbetweenFrames = false; // long ahh variable name
 
 		uint8_t targetExpression = 0;
 
-		void GlitchMaw();
+		void Glitch();
 		void Blink();
 };

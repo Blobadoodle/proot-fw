@@ -15,7 +15,7 @@ uint8_t reverseBits(uint8_t x) {
    return x;
 }
 
-// Function to horizontally flip a 1-bit bitmap
+// Horizontally flip a 1-bit bitmap
 void flipBitmap(uint8_t *bitmap, int width, int height) {
     int bytesPerRow = (width + 7) / 8;
     
@@ -61,11 +61,15 @@ void RenderEngine::Blink(int8_t blinkPos) {
 	canvas.fillRect(GET_LEFT_POS(EYE_POS, EYE_SIZE), -blinkPos + 4, 16, 4, LOW); // Bottom
 }
 
-void RenderEngine::GlitchMaw(uint8_t mawGlitchStep) {
-	if(mawGlitchStep == 0)
-		DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Glitch1, MAW_POS, MAW_SIZE);
-	else if(mawGlitchStep == 1)
-		DrawBitmapMirrored(Bitmaps::LEDMatrix::Maw::Glitch2, MAW_POS, MAW_SIZE);
+void RenderEngine::Glitch(uint8_t glitchPos) {
+	uint8_t glitchThreshold = glitchPos / 2;
+
+	for(uint8_t x = 0; x < NUM_OF_MATRICES * 8; x++) {
+		for(uint8_t y = 0; y < 8; y++) {
+			if(glitchThreshold > random(100))
+				canvas.drawPixel(x, y, canvas.getPixel(x, y) ^ 1); // Invert/flip
+		}
+	}
 }
 
 void RenderEngine::DrawMaw(int mawStage) {
@@ -96,9 +100,10 @@ void RenderEngine::Update(StateManager state) {
 	// Draw nose
 	DrawBitmapMirrored(Bitmaps::LEDMatrix::Nose, NOSE_POS, NOSE_SIZE);
 
-	// Draw maw/glitched maw
-	if(state.isMawGlitching)
-		GlitchMaw(state.mawGlitchStep);
-	else
-		DrawMaw(state.mawStage);
+	// Draw maw
+
+	DrawMaw(state.mawStage);
+
+	if(state.isGlitching)
+		Glitch(state.glitchPos);
 }

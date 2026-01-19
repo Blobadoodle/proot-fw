@@ -12,10 +12,12 @@
 // How long the eye should stay fully shut when blinking (ms)
 #define BLINK_SHUT_TIME 80
 
-// How long inbetween maw glitch (ms)
+// How long inbetween glitch (ms)
 #define GLITCH_TIME 7000
-// How long each maw glitch frame should show for (ms)
-#define GLITCH_FRAME_TIME 100
+// How long each glitch frame should show for (ms)
+#define GLITCH_FRAME_TIME 10
+// How many frames of glitch should be shown
+#define GLITCH_FRAME_NUM 28
 
 // Default expression
 #define DEFAULT_EXPRESSION EXPRESSION_HAPPY

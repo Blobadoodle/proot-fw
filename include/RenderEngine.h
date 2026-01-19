@@ -14,7 +14,7 @@ class RenderEngine {
 		void DrawBitmapMirrored(const uint8_t *bitmap, uint8_t x, uint8_t width);
 
 		void DrawMaw(int mawStage);
-		void GlitchMaw(uint8_t mawGlitchStep);
+		void Glitch(uint8_t glitchStep);
 
 		void Blink(int8_t blinkPos);
 };
