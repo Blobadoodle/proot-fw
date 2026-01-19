@@ -328,7 +328,7 @@ namespace Bitmaps {
 	namespace LEDMatrix {
 		// 32x8
 		namespace Maw {
-			const unsigned char Normal[] PROGMEM = {
+			const unsigned char Normal[] PROGMEM = { // Taken from https://x.com/Feronium/
 				0b00100000, 0b00000000, 0b00000000, 0b00000000,
 				0b01111000, 0b00000000, 0b00000000, 0b00000000,
 				0b11011110, 0b00000000, 0b00000000, 0b00000000,
@@ -339,7 +339,7 @@ namespace Bitmaps {
 				0b00000000, 0b00000111, 0b11100000, 0b00000001
 			};
 
-			const unsigned char Stage1[] PROGMEM = {
+			const unsigned char Stage1[] PROGMEM = { // Modified from original
 				0b00100000, 0b00000000, 0b00000000, 0b00000000,
 				0b01111000, 0b00000000, 0b00000000, 0b00000000,
 				0b11011111, 0b10000000, 0b00000000, 0b11100000,
@@ -350,7 +350,7 @@ namespace Bitmaps {
 				0b00000000, 0b00000111, 0b11100000, 0b00000001
 			};
 
-			const unsigned char Stage2[] PROGMEM = {
+			const unsigned char Stage2[] PROGMEM = { // Modified from original
 				0b00100000, 0b00000000, 0b00000000, 0b00000000,
 				0b01111000, 0b10000000, 0b00000000, 0b11100000,
 				0b11011111, 0b11100000, 0b00000111, 0b11111000,
@@ -361,7 +361,7 @@ namespace Bitmaps {
 				0b00000000, 0b00000111, 0b11100000, 0b00000001
 			};
 
-			const unsigned char Stage3[] PROGMEM = {
+			const unsigned char Stage3[] PROGMEM = { // Modified from original
 				0b00100000, 0b10000000, 0b00000000, 0b11100000,
 				0b01111001, 0b11100000, 0b00000111, 0b11111000,
 				0b11011111, 0b11111000, 0b00011111, 0b11111110,
@@ -374,7 +374,7 @@ namespace Bitmaps {
 		}
 
 		// 8x8
-		const unsigned char Nose[] PROGMEM = {
+		const unsigned char Nose[] PROGMEM = { // Taken from https://x.com/Feronium/
 			0b00000000,
 			0b01111110,
 			0b00111111,
@@ -387,7 +387,7 @@ namespace Bitmaps {
 
 		// 16x8
 		namespace Eyes {
-			const unsigned char Happy[] PROGMEM = {
+			const unsigned char Happy[] PROGMEM = { // Taken from https://x.com/Feronium/
 				0b00001111, 0b00000000,
 				0b00111111, 0b11100000,
 				0b01111111, 0b11111000,
@@ -398,7 +398,7 @@ namespace Bitmaps {
 				0b00000000, 0b00000000
 			};
 
-			const unsigned char VwV[] PROGMEM = {
+			const unsigned char VwV[] PROGMEM = { // Taken from https://x.com/Feronium/
 				0b00001110, 0b00000000,
 				0b00000111, 0b10000000,
 				0b00000001, 0b11100000,
@@ -409,7 +409,7 @@ namespace Bitmaps {
 				0b00001110, 0b00000000
 			};
 
-			const unsigned char Angry[] PROGMEM = {
+			const unsigned char Angry[] PROGMEM = { // Taken from https://x.com/Feronium/
 				0b00000000, 0b00000000,
 				0b00011111, 0b11111100,
 				0b00111111, 0b11111110,
@@ -420,7 +420,7 @@ namespace Bitmaps {
 				0b00000000, 0b00000000
 			};
 
-			const unsigned char Spooked[] PROGMEM = {
+			const unsigned char Spooked[] PROGMEM = { // Taken from https://x.com/Feronium/
 				0b00000011, 0b11000000,
 				0b00000111, 0b11100000,
 				0b00001111, 0b11110000,
@@ -431,7 +431,7 @@ namespace Bitmaps {
 				0b00000011, 0b11000000
 			};
 
-			const unsigned char Blush[] PROGMEM = {
+			const unsigned char Blush[] PROGMEM = { // Taken from https://github.com/diodeface/ToasterBlaster
 				0b00000000, 0b00000000,
 				0b00000011, 0b10000000,
 				0b00000100, 0b01000000,
@@ -442,7 +442,7 @@ namespace Bitmaps {
 				0b00000011, 0b10000101
 			};
 
-			const unsigned char Dead[] PROGMEM = {
+			const unsigned char Dead[] PROGMEM = { // Taken from https://github.com/diodeface/ToasterBlaster
 				0b00000000, 0b00000000,
 				0b00001000, 0b00100000,
 				0b00001100, 0b01100000,
