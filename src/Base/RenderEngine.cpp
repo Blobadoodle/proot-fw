@@ -54,8 +54,11 @@ void RenderEngine::DrawBitmapMirrored(const uint8_t *bitmap, uint8_t x, uint8_t 
 }
 
 void RenderEngine::Blink(int8_t blinkPos) {
-	canvas.fillRect(EYE_POS, blinkPos, 16, 8, LOW);
-	canvas.fillRect(GET_LEFT_POS(EYE_POS, EYE_SIZE), blinkPos, 16, 8, LOW);
+	canvas.fillRect(EYE_POS, blinkPos, 16, 4, LOW); // Top
+	canvas.fillRect(EYE_POS, -blinkPos + 4, 16, 4, LOW); // Bottom
+
+	canvas.fillRect(GET_LEFT_POS(EYE_POS, EYE_SIZE), blinkPos, 16, 4, LOW); // Top
+	canvas.fillRect(GET_LEFT_POS(EYE_POS, EYE_SIZE), -blinkPos + 4, 16, 4, LOW); // Bottom
 }
 
 void RenderEngine::GlitchMaw(uint8_t mawGlitchStep) {

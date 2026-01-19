@@ -23,7 +23,7 @@ class StateManager {
 		void SetExpression(uint8_t expressionNum);
 
 		uint8_t mawGlitchStep = 0;
-		int8_t blinkPos = -8;
+		int8_t blinkPos = -4;
 
 		bool isBlinking = false;
 		bool isMawGlitching = false;
@@ -44,6 +44,7 @@ class StateManager {
 	protected:
 		Chrono blinkTimer = Chrono();
 		Chrono blinkFrameTimer = Chrono();
+		Chrono blinkShutTimer = Chrono();
 
 		Chrono glitchTimer = Chrono();
 		Chrono glitchFrameTimer = Chrono();

@@ -21,31 +21,39 @@ void StateManager::GlitchMaw() {
 }
 
 void StateManager::Blink() {
-	if(blinkFrameTimer.hasPassed(BLINK_FRAME_TIME)) {
-		redrawNeeded = true;
-		blinkStep++;
+	if(!blinkFrameTimer.hasPassed(BLINK_FRAME_TIME))
+		return;
 
-		if(blinkStep < 8)
-			blinkPos = blinkStep - 8;
+	if(blinkStep == 4) {
+		if(blinkShutTimer.hasPassed(BLINK_SHUT_TIME))
+			blinkShutTimer.stop();
 		else
-			blinkPos = -(blinkStep - 8);
-
-		if(blinkStep == 8) {
-			lastExpression = targetExpression;
-			if(!isBooping)
-				currentExpression = targetExpression;
-		}
-
-		if(blinkStep == 17) {
-			isBlinking = false;
-
-			blinkTimer.restart();
-			blinkFrameTimer.stop();
-			blinkStep = 0;
-			blinkPos = -8;
 			return;
-		}
+	}
 
+	redrawNeeded = true;
+	blinkStep++;
+
+	if(blinkStep < 4)
+		blinkPos = blinkStep - 4;
+	else
+		blinkPos = -(blinkStep - 4);
+
+	if(blinkStep == 4) {
+		lastExpression = targetExpression;
+		if(!isBooping)
+			currentExpression = targetExpression;
+		blinkShutTimer.restart();
+	}
+
+	if(blinkStep > 8) {
+		isBlinking = false;
+
+		blinkTimer.restart();
+		blinkFrameTimer.stop();
+		blinkStep = 0;
+		blinkPos = -4;
+	} else {
 		blinkFrameTimer.restart();
 	}
 }
@@ -107,6 +115,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 
 void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
 	blinkFrameTimer.stop();
+	blinkShutTimer.stop();
 	glitchFrameTimer.stop();
 	boopTimer.stop();
 

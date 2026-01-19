@@ -9,6 +9,8 @@
 #define BLINK_TIME 9000
 // How long each blink frame should show for (ms)
 #define BLINK_FRAME_TIME 20
+// How long the eye should stay fully shut when blinking (ms)
+#define BLINK_SHUT_TIME 80
 
 // How long inbetween maw glitch (ms)
 #define GLITCH_TIME 7000
