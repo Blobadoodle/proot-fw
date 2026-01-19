@@ -19,6 +19,7 @@ void StateManager::Glitch() {
 			redrawNeeded = true;
 			glitchTimer.restart();
 			glitchFrameTimer.stop();
+			nextGlitchTime = random(GLITCH_TIME_MIN, GLITCH_TIME_MAX);
 			return;
 		}
 
@@ -55,6 +56,7 @@ void StateManager::Blink() {
 	if(blinkStep > 8) {
 		isBlinking = false;
 
+		nextBlinkTime = random(BLINK_TIME_MIN, BLINK_TIME_MAX);
 		blinkTimer.restart();
 		blinkFrameTimer.stop();
 		blinkStep = 0;
@@ -69,7 +71,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 
 	if(isGlitching) {
 		Glitch();
-	} else if(glitchTimer.hasPassed(GLITCH_TIME)) {
+	} else if(glitchTimer.hasPassed(nextGlitchTime)) {
 		isGlitching = true;
 		redrawNeeded = true;
 	
@@ -79,7 +81,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 	
 	if(isBlinking) {
 		Blink();
-	} else if(blinkTimer.hasPassed(BLINK_TIME) || hasExpressionChangedInbetweenFrames) {
+	} else if(blinkTimer.hasPassed(nextBlinkTime) || hasExpressionChangedInbetweenFrames) {
 		isBlinking = true;
 		redrawNeeded = true;
 
@@ -124,6 +126,8 @@ void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
 	blinkShutTimer.stop();
 	glitchFrameTimer.stop();
 	boopTimer.stop();
+	nextGlitchTime = random(GLITCH_TIME_MIN, GLITCH_TIME_MAX);
+	nextBlinkTime = random(BLINK_TIME_MIN, BLINK_TIME_MAX);
 
 	currentExpression = DEFAULT_EXPRESSION;
 	lastExpression = currentExpression;

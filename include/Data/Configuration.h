@@ -6,14 +6,16 @@
 #define MATRIX_CS 34
 
 // How long inbetween blinks (ms)
-#define BLINK_TIME 9000
+#define BLINK_TIME_MIN 6500
+#define BLINK_TIME_MAX 12000
 // How long each blink frame should show for (ms)
 #define BLINK_FRAME_TIME 20
 // How long the eye should stay fully shut when blinking (ms)
 #define BLINK_SHUT_TIME 80
 
 // How long inbetween glitch (ms)
-#define GLITCH_TIME 7000
+#define GLITCH_TIME_MIN 25000
+#define GLITCH_TIME_MAX 40000
 // How long each glitch frame should show for (ms)
 #define GLITCH_FRAME_TIME 10
 // How many frames of glitch should be shown

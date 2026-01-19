@@ -42,10 +42,12 @@ class StateManager {
 		uint8_t focus = FOCUS_EXPRESSION;
 		uint8_t selectedQuickSetting = QUICKSETTING_RGB_BRIGHTNESS;
 	protected:
+		uint32_t nextBlinkTime = 0;
 		Chrono blinkTimer = Chrono();
 		Chrono blinkFrameTimer = Chrono();
 		Chrono blinkShutTimer = Chrono();
 
+		uint32_t nextGlitchTime = 0;
 		Chrono glitchTimer = Chrono();
 		Chrono glitchFrameTimer = Chrono();
 		
