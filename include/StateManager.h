@@ -5,16 +5,17 @@
 #include <Settings.h>
 #include <Devices/GestureSensor.h>
 
-#define FOCUS_EXPRESSION 0 
-#define FOCUS_QUICKSETTINGS 1
+enum class Focus {
+	Expressions,
+	Quicksettings
+};
 
-#define QUICKSETTING_RGB_BRIGHTNESS 0
-#define QUICKSETTING_FAN 1
-#define QUICKSETTING_BRIGHTNESS 2
-#define QUICKSETTING_MIC 3
-
-#define SCREEN_MAIN 0
-#define SCREEN_SETTINGS 1
+enum class QuickSetting {
+	RGBBrightness,
+	Fan,
+	Brightness,
+	Mic
+};
 
 class StateManager {
 	public:
@@ -39,8 +40,8 @@ class StateManager {
 		uint8_t lastExpression;
 
 		// Internal display UI stuff
-		uint8_t focus = FOCUS_EXPRESSION;
-		uint8_t selectedQuickSetting = QUICKSETTING_RGB_BRIGHTNESS;
+		Focus focus = Focus::Expressions;
+		QuickSetting selectedQuickSetting = QuickSetting::RGBBrightness;
 	protected:
 		uint32_t nextBlinkTime = 0;
 		Chrono blinkTimer = Chrono();

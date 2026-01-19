@@ -136,13 +136,13 @@ void InternalDisplay::Update(const uint8_t *bitmap) {
 	display.fillRect(x, y, 35, 11, SH110X_INVERSE);
 
 	// Higlight the focused UI portion
-	if(state->focus == FOCUS_EXPRESSION) {
+	if(state->focus == Focus::Expressions) {
 		display.drawRect(0, 79, 74, 49, SH110X_WHITE);
 	} else {
 		display.drawRect(73, 79, 55, 49, SH110X_WHITE);
 		// Also highlight selected quicksetting
 		uint8_t x = 74;
-		uint8_t y = 81 + state->selectedQuickSetting * 12;
+		uint8_t y = 81 + (uint8_t)state->selectedQuickSetting * 12;
 		display.fillRect(x, y, 53, 9, SH110X_INVERSE);
 	}
 

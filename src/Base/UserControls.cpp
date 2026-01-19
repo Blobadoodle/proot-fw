@@ -3,7 +3,7 @@
 #include <Data/Expressions.h>
 
 void UserControls::OnClick() {
-	if(state->focus == FOCUS_EXPRESSION) {
+	if(state->focus == Focus::Expressions) {
 		#ifdef CYCLE_ON_ONE
 		if(state->lastExpression >= NUM_OF_EXPRESSIONS - 1)
 			state->SetExpression(0);
@@ -14,7 +14,7 @@ void UserControls::OnClick() {
 		#endif
 	} else {
 		switch(state->selectedQuickSetting) {
-			case QUICKSETTING_RGB_BRIGHTNESS:
+			case QuickSetting::RGBBrightness:
 				if(rgbled->brightness >= 15)
 					rgbled->SetBrightness(1);
 				else
@@ -22,7 +22,7 @@ void UserControls::OnClick() {
 				settings->data.defaultRgbBrightness = rgbled->brightness;
 				break;		
 
-			case QUICKSETTING_FAN:
+			case QuickSetting::Fan:
 				if(fan->fanSpeed >= 10)
 					fan->SetFanSpeed(0);
 				else
@@ -30,7 +30,7 @@ void UserControls::OnClick() {
 				settings->data.defaultFanSpeed = fan->fanSpeed;
 				break;
 
-			case QUICKSETTING_BRIGHTNESS:
+			case QuickSetting::Brightness:
 				if(matrix->brightness >= 15)
 					matrix->SetBrightness(1);
 				else
@@ -38,7 +38,7 @@ void UserControls::OnClick() {
 				settings->data.defaultBrightness = matrix->brightness;
 				break;
 
-			case QUICKSETTING_MIC:
+			case QuickSetting::Mic:
 				settings->data.micToggle = !settings->data.micToggle;
 				mic->Toggle(settings->data.micToggle);
 		}
@@ -48,11 +48,11 @@ void UserControls::OnClick() {
 }
 
 void UserControls::OnLongClick() {
-	if(state->focus == FOCUS_EXPRESSION) {
-		state->selectedQuickSetting = QUICKSETTING_RGB_BRIGHTNESS;
-		state->focus = FOCUS_QUICKSETTINGS;
+	if(state->focus == Focus::Expressions) {
+		state->selectedQuickSetting = QuickSetting::RGBBrightness;
+		state->focus = Focus::Quicksettings;
 	} else {
-		state->focus = FOCUS_EXPRESSION;
+		state->focus = Focus::Expressions;
 		if(unsavedSettings) {
 			unsavedSettings = false;
 			settings->WriteSettings();
@@ -62,11 +62,11 @@ void UserControls::OnLongClick() {
 }
 
 void UserControls::OnDoubleClick() {
-	if(state->focus == FOCUS_QUICKSETTINGS) {
-		if(state->selectedQuickSetting >= QUICKSETTING_MIC)
-			state->selectedQuickSetting = QUICKSETTING_RGB_BRIGHTNESS;
+	if(state->focus == Focus::Quicksettings) {
+		if(state->selectedQuickSetting >= QuickSetting::Mic)
+			state->selectedQuickSetting = QuickSetting::RGBBrightness;
 		else
-			state->selectedQuickSetting++;
+			state->selectedQuickSetting = (QuickSetting)((uint8_t)state->selectedQuickSetting + 1);
 
 		state->internalOnlyRedrawNeeded = true;
 	} else {
@@ -75,7 +75,7 @@ void UserControls::OnDoubleClick() {
 }
 
 void UserControls::OnMultiClick() {
-	if(state->focus != FOCUS_EXPRESSION)
+	if(state->focus != Focus::Expressions)
 		return;
 
 	uint8_t numClicks = button.getNumberClicks();
