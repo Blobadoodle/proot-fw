@@ -38,6 +38,8 @@ class StateManager {
 
 		uint8_t currentExpression;
 		uint8_t lastExpression;
+		bool midTransition = false;
+		uint8_t transitionFrame;
 
 		// Internal display UI stuff
 		Focus focus = Focus::Expressions;
@@ -51,6 +53,8 @@ class StateManager {
 		uint32_t nextGlitchTime = 0;
 		Chrono glitchTimer = Chrono();
 		Chrono glitchFrameTimer = Chrono();
+
+		Chrono transitionFrameTimer = Chrono();
 		
 		int lastMawStage = 0;
 	
@@ -61,8 +65,6 @@ class StateManager {
 		uint8_t blinkStep = 0;
 
 		bool hasExpressionChangedInbetweenFrames = false; // long ahh variable name
-
-		uint8_t targetExpression = 0;
 
 		void Glitch();
 		void Blink();

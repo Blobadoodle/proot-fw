@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <Arduino.h>
 
 // The majority of these were generated using https://javl.github.io/image2cpp/
@@ -384,74 +383,5 @@ namespace Bitmaps {
 			0b00000000,
 			0b00000000
 		};
-
-		// 16x8
-		namespace Eyes {
-			const unsigned char Happy[] PROGMEM = { // Taken from https://x.com/Feronium/
-				0b00001111, 0b00000000,
-				0b00111111, 0b11100000,
-				0b01111111, 0b11111000,
-				0b11111111, 0b11111110,
-				0b11110000, 0b00000111,
-				0b01100000, 0b00000001,
-				0b00000000, 0b00000000,
-				0b00000000, 0b00000000
-			};
-
-			const unsigned char VwV[] PROGMEM = { // Taken from https://x.com/Feronium/
-				0b00001110, 0b00000000,
-				0b00000111, 0b10000000,
-				0b00000001, 0b11100000,
-				0b00000000, 0b01111000,
-				0b00000000, 0b01111000,
-				0b00000001, 0b11100000,
-				0b00000111, 0b10000000,
-				0b00001110, 0b00000000
-			};
-
-			const unsigned char Angry[] PROGMEM = { // Taken from https://x.com/Feronium/
-				0b00000000, 0b00000000,
-				0b00011111, 0b11111100,
-				0b00111111, 0b11111110,
-				0b00111111, 0b11111100,
-				0b00011111, 0b11111000,
-				0b00001111, 0b11100000,
-				0b00000011, 0b10000000,
-				0b00000000, 0b00000000
-			};
-
-			const unsigned char Spooked[] PROGMEM = { // Taken from https://x.com/Feronium/
-				0b00000011, 0b11000000,
-				0b00000111, 0b11100000,
-				0b00001111, 0b11110000,
-				0b00001111, 0b11110000,
-				0b00001111, 0b11110000,
-				0b00001111, 0b11110000,
-				0b00000111, 0b11100000,
-				0b00000011, 0b11000000
-			};
-
-			const unsigned char Blush[] PROGMEM = { // Taken from https://github.com/diodeface/ToasterBlaster
-				0b00000000, 0b00000000,
-				0b00000011, 0b10000000,
-				0b00000100, 0b01000000,
-				0b00001000, 0b00100000,
-				0b00001000, 0b00100000,
-				0b00001000, 0b00100000,
-				0b00000100, 0b01001010,
-				0b00000011, 0b10000101
-			};
-
-			const unsigned char Dead[] PROGMEM = { // Taken from https://github.com/diodeface/ToasterBlaster
-				0b00000000, 0b00000000,
-				0b00001000, 0b00100000,
-				0b00001100, 0b01100000,
-				0b00000110, 0b11000000,
-				0b00000011, 0b10000000,
-				0b00000110, 0b11000000,
-				0b00001100, 0b01100000,
-				0b00001000, 0b00100000
-			};
-		}
 	}
 }

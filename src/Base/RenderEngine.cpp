@@ -89,11 +89,35 @@ void RenderEngine::DrawMaw(int mawStage) {
 	}
 }
 
+void RenderEngine::DrawEye(bool midTransition, uint8_t transitionFrame) {
+	if(midTransition) {
+		eyeSDF.CalcLerp((float)transitionFrame / (float)TRANSITION_FRAMES);
+		eyeSDF.CalcBitmap();
+	}
+
+	canvas.drawBitmap(EYE_POS, 0, eyeSDF.canvas.getBuffer(), eyeSDF.width, eyeSDF.height, HIGH);
+}
+
+void RenderEngine::CheckCalcSDF(uint8_t currentExpression) {
+	if(currentExpression != loadedExpression) {
+		eyeSDF.newSdf = Expressions[currentExpression].eyeSdf;
+		eyeSDF.prevSdf = eyeSDF.currentSdf;
+		loadedExpression = currentExpression;
+	}
+}
+
+void RenderEngine::Init() {
+	eyeSDF.LoadSDF(Expressions[DEFAULT_EXPRESSION].eyeSdf);
+	eyeSDF.CalcBitmap();
+}
+
 void RenderEngine::Update(StateManager state) {
 	canvas.fillScreen(LOW);
 
 	// Draw eye and blink
-	DrawBitmapMirrored(Expressions[state.currentExpression].eyeBitmap, EYE_POS, EYE_SIZE);
+	CheckCalcSDF(state.currentExpression);
+	DrawEye(state.midTransition, state.transitionFrame);
+
 	if(state.isBlinking)
 		Blink(state.blinkPos);
 

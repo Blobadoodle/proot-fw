@@ -25,6 +25,7 @@ bool Protogen::Init() {
 
 	// TODO: This sucks
 	battery.Init();
+	engine.Init();
 	bool gestureSensorSuccess = gestureSensor.Init();
 	stateManager.Init(&settings, &gestureSensor);
 	fan.Init(&settings);

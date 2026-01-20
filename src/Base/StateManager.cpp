@@ -47,9 +47,6 @@ void StateManager::Blink() {
 		blinkPos = -(blinkStep - 4);
 
 	if(blinkStep == 4) {
-		lastExpression = targetExpression;
-		if(!isBooping)
-			currentExpression = targetExpression;
 		blinkShutTimer.restart();
 	}
 
@@ -81,7 +78,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 	
 	if(isBlinking) {
 		Blink();
-	} else if(blinkTimer.hasPassed(nextBlinkTime) || hasExpressionChangedInbetweenFrames) {
+	} else if(blinkTimer.hasPassed(nextBlinkTime)) {
 		isBlinking = true;
 		redrawNeeded = true;
 
@@ -95,6 +92,9 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 
 	if(boopPresent && !isBooping) {
 		currentExpression = EXPRESSION_VWV;
+		midTransition = true;
+		transitionFrame = 1;
+		transitionFrameTimer.restart();
 		isBooping = true;
 		boopTimer.restart();
 		redrawNeeded = true;
@@ -102,6 +102,9 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 		currentExpression = lastExpression;
 		isBooping = false;
 		redrawNeeded = true;
+		midTransition = true;
+		transitionFrame = 1;
+		transitionFrameTimer.restart();
 	}
 
 	lastMawStage = mawStage;
@@ -117,8 +120,21 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 	if(lastMawStage != mawStage)
 		redrawNeeded = true;	
 
-	if(hasExpressionChangedInbetweenFrames)
+	if(hasExpressionChangedInbetweenFrames) {
 		hasExpressionChangedInbetweenFrames = false;
+		redrawNeeded = true;
+	}
+
+	if(midTransition) {
+		if(transitionFrame >= TRANSITION_FRAMES) {
+			midTransition = false;
+			transitionFrameTimer.stop();
+		} else if(transitionFrameTimer.hasPassed(TRANSITION_FRAME_TIME)) {
+			transitionFrame++;
+			transitionFrameTimer.restart();
+			redrawNeeded = true;
+		}
+	}
 }
 
 void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
@@ -126,17 +142,21 @@ void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
 	blinkShutTimer.stop();
 	glitchFrameTimer.stop();
 	boopTimer.stop();
+	transitionFrameTimer.stop();
 	nextGlitchTime = random(GLITCH_TIME_MIN, GLITCH_TIME_MAX);
 	nextBlinkTime = random(BLINK_TIME_MIN, BLINK_TIME_MAX);
 
 	currentExpression = DEFAULT_EXPRESSION;
 	lastExpression = currentExpression;
-	targetExpression = currentExpression;
 
 	gestureSensor = _gestureSensor;
 }
 
 void StateManager::SetExpression(uint8_t expressionNum) {
 	hasExpressionChangedInbetweenFrames = true;
-	targetExpression = expressionNum;
+	midTransition = true;
+	transitionFrame = 1;
+	transitionFrameTimer.restart();
+	currentExpression = expressionNum;
+	lastExpression = expressionNum;
 }

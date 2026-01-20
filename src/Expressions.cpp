@@ -1,11 +1,11 @@
 #include <Data/Expressions.h>
-#include <Data/Bitmaps.h>
+#include <Data/SDFs.h>
 
 Expression Expressions[] = {
-	Expression(Bitmaps::LEDMatrix::Eyes::Happy, ":3"),
-	Expression(Bitmaps::LEDMatrix::Eyes::VwV, ">w<"),
-	Expression(Bitmaps::LEDMatrix::Eyes::Angry, "3:<"),
-	Expression(Bitmaps::LEDMatrix::Eyes::Spooked, "O_O"),
-	Expression(Bitmaps::LEDMatrix::Eyes::Blush, "o//o"),
-	Expression(Bitmaps::LEDMatrix::Eyes::Dead, "X_X"),
+	Expression(SDFs::Happy, ":3"),
+	Expression(SDFs::VwV, ">w<"),
+	Expression(SDFs::Angry, "3:<"),
+	Expression(SDFs::Spooked, "O_O"),
+	Expression(SDFs::Blush, "o//o"),
+	Expression(SDFs::Dead, "X_X"),
 };

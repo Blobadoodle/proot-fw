@@ -24,6 +24,10 @@
 // Default expression
 #define DEFAULT_EXPRESSION EXPRESSION_HAPPY
 
+// Transition time/steps
+#define TRANSITION_FRAME_TIME 15
+#define TRANSITION_FRAMES 5
+
 // Interrupt pin for gesture sensor
 #define APDS_INT 7
 // How close hand has to be to register boop, 0->255
