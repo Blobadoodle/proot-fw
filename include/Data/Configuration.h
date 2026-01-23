@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Data/Expressions.h>
-#include <FastLED.h>
 
 // CS/LOAD Pin for MAX7219's
 #define MATRIX_CS 34
