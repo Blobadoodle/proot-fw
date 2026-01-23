@@ -36,7 +36,7 @@ for y in range(height):
 
 distanceField = [[] for _ in range(width)]
 
-def calcDistanceField(pixelX: int, pixelY: int) -> int:
+def calcDistanceField(pixelX: int, pixelY: int) -> float:
     minDistance = math.inf
     for x in range(width):
         for y in range(height):
@@ -56,22 +56,15 @@ def calcDistanceField(pixelX: int, pixelY: int) -> int:
         else:
             minDistance = -minDistance + 1
 
-    return int(minDistance)
+    return minDistance
 
 for x in range(width):
     for y in range(height):
         distanceField[x].insert(y, calcDistanceField(x, y))
 
-print("\nOUTPUT: \n")
+print("\nC++ Output: \n")
 
 for y in range(height):
     for x in range(width):
-        print(str(distanceField[x][y]).rjust(2, '0'), end=" ")
-    print()
-
-print("\nC++ OUTPUT: \n")
-
-for y in range(height):
-    for x in range(width):
-        print(str(distanceField[x][y]).rjust(2, ' '), end=", ")
+        print(str(distanceField[x][y]), end=", ")
     print()

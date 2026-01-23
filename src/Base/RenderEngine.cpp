@@ -90,18 +90,17 @@ void RenderEngine::DrawMaw(int mawStage) {
 }
 
 void RenderEngine::DrawEye(bool midTransition, uint8_t transitionFrame) {
-	if(midTransition) {
+	if(midTransition) { // TODO: Only calc this if needed, not just when midTransition && redrawNeeded
 		eyeSDF.CalcLerp((float)transitionFrame / (float)TRANSITION_FRAMES);
 		eyeSDF.CalcBitmap();
 	}
 
-	canvas.drawBitmap(EYE_POS, 0, eyeSDF.canvas.getBuffer(), eyeSDF.width, eyeSDF.height, HIGH);
+	DrawBitmapMirrored(eyeSDF.canvas.getBuffer(), EYE_POS, eyeSDF.width);
 }
 
 void RenderEngine::CheckCalcSDF(uint8_t currentExpression) {
 	if(currentExpression != loadedExpression) {
-		eyeSDF.newSdf = Expressions[currentExpression].eyeSdf;
-		eyeSDF.prevSdf = eyeSDF.currentSdf;
+		eyeSDF.LoadNewSDF(Expressions[currentExpression].eyeSdf);
 		loadedExpression = currentExpression;
 	}
 }

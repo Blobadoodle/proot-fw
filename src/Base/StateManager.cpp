@@ -153,6 +153,8 @@ void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
 }
 
 void StateManager::SetExpression(uint8_t expressionNum) {
+	if(expressionNum == lastExpression) return;
+
 	hasExpressionChangedInbetweenFrames = true;
 	midTransition = true;
 	transitionFrame = 1;

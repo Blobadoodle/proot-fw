@@ -25,8 +25,8 @@
 #define DEFAULT_EXPRESSION EXPRESSION_HAPPY
 
 // Transition time/steps
-#define TRANSITION_FRAME_TIME 15
-#define TRANSITION_FRAMES 5
+#define TRANSITION_FRAME_TIME 5
+#define TRANSITION_FRAMES 15
 
 // Interrupt pin for gesture sensor
 #define APDS_INT 7

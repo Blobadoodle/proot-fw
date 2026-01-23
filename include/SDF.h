@@ -8,13 +8,15 @@ class SDF {
         SDF(uint8_t _width, uint8_t _height);
         void CalcLerp(float time);
         void CalcBitmap();
-        void LoadSDF(const int8_t *sdf);
+        void LoadSDF(const float *sdf);
+        void LoadNewSDF(const float *sdf);
 
-        GFXcanvas1 canvas;
+        GFXcanvas1 canvas; // TODO: Bloat.
 
         uint8_t width;
         uint8_t height;
-        const int8_t *newSdf;
-        const int8_t *prevSdf;
-        int8_t *currentSdf;
+
+        const float *newSdf;
+        float *prevSdf;
+        float *currentSdf;
 };

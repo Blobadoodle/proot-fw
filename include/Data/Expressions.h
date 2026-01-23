@@ -3,10 +3,10 @@
 #include <cstdint>
 
 struct Expression {
-	const signed char *eyeSdf;
+	const float *eyeSdf;
 	const char *name;
 
-	Expression(const signed char *eyeSdf, const char *name) : eyeSdf(eyeSdf), name(name) {}
+	Expression(const float *eyeSdf, const char *name) : eyeSdf(eyeSdf), name(name) {}
 };
 
 #define EXPRESSION_HAPPY 0
