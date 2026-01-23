@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Data/Expressions.h>
+#include <FastLED.h>
 
 // CS/LOAD Pin for MAX7219's
 #define MATRIX_CS 34
@@ -81,6 +82,12 @@
 
 // How often to update the RGB LEDs (ms)
 #define RGBLED_FRAME_TIME 100
+
+// RGB LED gradient values
+#define RGBLED_COLOUR_1 0x3A61B4
+#define RGBLED_COLOUR_2 0x80D6E0
+#define RGBLED_POSITION_2 160 // 0-255
+#define RGBLED_COLOUR_3 0xCEEBDF
 
 // Perform a hardware test on startup
 // #define HARDWARE_TEST

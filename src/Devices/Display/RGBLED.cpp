@@ -25,7 +25,13 @@ void RGBLED::HardwareTest() {
 
 // Spinner animation thing for cheeks
 void RGBLED::OnFrame() {
-    CRGB pixelColour = blend(CRGB::LightSkyBlue, CRGB::Purple, sin8(millis() / 32));
+    uint8_t time = sin8(millis() / 32);
+    CRGB pixelColour;
+    if(time < RGBLED_POSITION_2) {
+        pixelColour = blend(CRGB(RGBLED_COLOUR_1), CRGB(RGBLED_COLOUR_2), map(time, 0, RGBLED_POSITION_2, 0, 255));
+    } else {
+        pixelColour = blend(CRGB(RGBLED_COLOUR_2), CRGB(RGBLED_COLOUR_3), map(time, RGBLED_POSITION_2, 255, 0, 255));
+    }
 
     fadeToBlackBy(rightCheek, RGBLED_CHEEK_NUM, 64);
 

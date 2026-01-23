@@ -1,6 +1,5 @@
 #pragma once
 
-#define FASTLED_RMT_MAX_CHANNELS 1
 #include <FastLED.h>
 #include <Data/Constants.h>
 #include <Chrono.h>
