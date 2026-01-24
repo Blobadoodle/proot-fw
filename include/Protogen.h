@@ -10,6 +10,7 @@
 #include <Devices/Battery.h>
 #include <RenderEngine.h>
 #include <UserControls.h>
+#include <BLEControl.h>
 #include <FastLED.h>
 
 class Protogen {
@@ -25,6 +26,7 @@ class Protogen {
 		Fan fan;
 		Microphone mic;
 		Battery battery;
+		BLEControl bleControl;
 
 		bool fullyInitialised = false;
 

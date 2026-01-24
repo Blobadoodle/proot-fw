@@ -88,6 +88,10 @@
 #define RGBLED_POSITION_2 160 // 0-255
 #define RGBLED_COLOUR_3 0xCEEBDF
 
+// Name/Icon to show in BLE device list
+#define BLE_NAME "Proot"
+#define BLE_APPEARANCE 0x0905 // (Toaster) Refer to Bluetooth Assigned Numbers
+
 // Perform a hardware test on startup
 // #define HARDWARE_TEST
 // Debug, not init until serial connection

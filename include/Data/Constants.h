@@ -38,3 +38,15 @@
 // FFT stuff
 #define FFT_SAMPLES 256
 #define FFT_SAMPLE_RATE 8000
+
+// BLE UUIDs
+#define BLE_PROTOGEN_SERVICE "7777" // Should be 128-bit but then it's too long for an advertisement packet
+#define BLE_FIRMWARE_CHAR "4db97151-1825-49b7-862c-999e50f7a1de"
+
+#define BLE_CURRENT_EXPR_CHAR "be0bf400-b046-4c76-b778-0e3a61edd7b6"
+#define BLE_AVAILABLE_EXPR_CHAR "5d902e7e-619f-471e-bbc8-898e5da171de"
+
+#define BLE_DISPLAY_BRIGHTNESS_CHAR "f108fc78-e06d-4c65-9855-185dd852ebd2"
+#define BLE_RGB_BRIGHTNESS_CHAR "ce2d7a5a-21c0-4723-8e6e-9d0fd955b951"
+#define BLE_FAN_SPEED_CHAR "8e6b36a5-172f-4e75-bb41-87ff8e219b36"
+#define BLE_MIC_TOGGLE_CHAR "bb1c39bd-4650-44dc-a655-5ba21d19f03c"
