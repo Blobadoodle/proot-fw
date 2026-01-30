@@ -2,8 +2,8 @@
 
 #include <cstdint>
 #include <Chrono.h>
-#include <Settings.h>
 #include <Devices/GestureSensor.h>
+#include <BLEControl.h>
 
 enum class Focus {
 	Expressions,
@@ -19,7 +19,7 @@ enum class QuickSetting {
 
 class StateManager {
 	public:
-		void Init(Settings *settings, GestureSensor *_gestureSensor);
+		void Init(GestureSensor *_gestureSensor, BLEControl *_ble);
 		void Update(bool boopPresent, double voicePower);
 		void SetExpression(uint8_t expressionNum);
 
@@ -66,6 +66,9 @@ class StateManager {
 
 		bool hasExpressionChangedInbetweenFrames = false; // long ahh variable name
 
+		BLEControl *ble;
+
 		void Glitch();
 		void Blink();
+		void _SetExpression(uint8_t expressionNum);
 };

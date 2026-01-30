@@ -5,12 +5,26 @@
 
 #define SAMPLE_PERIOD 1000000 / FFT_SAMPLE_RATE
 
-void Microphone::Init(Settings *settings) {
+void Microphone::Init(Settings *_settings, BLEControl *_ble) {
+    settings = _settings;
+    ble = _ble;
+
 	pinMode(MIC_INPUT, INPUT);
     pinMode(MIC_GAIN_PIN, OUTPUT);
 	
     SetGain(MIC_GAIN_VALUE);
     Toggle(settings->data.micToggle);
+
+    ble->SetWriteCallback(BLE_MIC_TOGGLE_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+		OnWriteToggle(pCharacteristic->getValue().data()[0]);
+	});
+}
+
+void Microphone::OnWriteToggle(bool newToggle) {
+    Toggle(newToggle);
+
+    settings->data.micToggle = newToggle;
+    settings->WriteSettings();
 }
 
 void Microphone::SetGain(uint8_t newGain) {

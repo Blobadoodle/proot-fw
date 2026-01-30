@@ -4,10 +4,11 @@
 #include <Settings.h>
 #include <Data/Constants.h>
 #include <arduinoFFT.h>
+#include <BLEControl.h>
 
 class Microphone {
 	public:
-		void Init(Settings *settings);
+		void Init(Settings *_settings, BLEControl *_ble);
 
 		uint8_t gain = 40; // 40 or 50
 		void SetGain(uint8_t newGain);
@@ -29,6 +30,11 @@ class Microphone {
 		ArduinoFFT<double> FFT = ArduinoFFT<double>(vReal, vImag, FFT_SAMPLES, FFT_SAMPLE_RATE);
 
 		void ComputeVoicePower();
+
+		Settings *settings;
+		BLEControl *ble;
+
+		void OnWriteToggle(bool newToggle);
 
 		bool enabled = true;
 };

@@ -3,7 +3,10 @@
 #include <Data/Configuration.h>
 #include <Data/Constants.h>
 
-void LEDMatrix::Init(Settings *settings) {
+void LEDMatrix::Init(Settings *_settings, BLEControl *_ble) {
+	settings = _settings;
+	ble = _ble;
+
 	matrix.init();
 
 	for(uint8_t i = 0; i < NUM_OF_MATRICES; i++) {
@@ -14,6 +17,18 @@ void LEDMatrix::Init(Settings *settings) {
 
 	matrix.fillScreen(LOW);
 	matrix.write();
+
+	ble->SetWriteCallback(BLE_DISPLAY_BRIGHTNESS_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+		OnWriteIntensity(pCharacteristic->getValue().data()[0]);
+	});
+}
+
+void LEDMatrix::OnWriteIntensity(uint8_t newIntensity) {
+	uint8_t actualNew = constrain(newIntensity, 1, 15);
+	SetBrightness(actualNew);
+
+	settings->data.defaultBrightness = actualNew;
+	settings->WriteSettings();
 }
 
 void LEDMatrix::SetBrightness(uint8_t newBrightness) {

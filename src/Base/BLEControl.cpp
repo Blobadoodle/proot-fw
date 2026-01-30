@@ -19,6 +19,9 @@ void BLEControl::Init() {
     pAdvertising->enableScanResponse(false);
     pAdvertising->setAppearance(BLE_APPEARANCE);
     pAdvertising->addServiceUUID(pService->getUUID());
+}
+
+void BLEControl::StartAdvertising() {
     pAdvertising->start();
 }
 
@@ -65,7 +68,10 @@ void BLEControl::SetupChars() {
     firmInfo->setValue(firmwareInfoStr.c_str());
 
     // Expression char's
-    currentExpression = CreateChar(BLE_CURRENT_EXPR_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::NOTIFY);
+    currentExpression = CreateChar(BLE_CURRENT_EXPR_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::INDICATE);
+    // const uint8_t *data = {DEFAULT_EXPRESSION};
+    // currentExpression->setValue(data, 1);
+
     availableExpressions = CreateChar(BLE_AVAILABLE_EXPR_CHAR, NIMBLE_PROPERTY::READ);
     String expressionsStr = "";
     for(uint8_t i = 0; i < NUM_OF_EXPRESSIONS; i++) {

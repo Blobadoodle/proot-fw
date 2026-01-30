@@ -13,12 +13,15 @@ bool Settings::CheckRevision() {
 
 void Settings::GetSettings() { // Loads the settings from the EEPROM into this.data
 	EEPROM.get(0, data);
+	ble->SetValue(BLE_DISPLAY_BRIGHTNESS_CHAR, &data.defaultBrightness, sizeof(data.defaultBrightness));
+	ble->SetValue(BLE_RGB_BRIGHTNESS_CHAR, &data.defaultRgbBrightness, sizeof(data.defaultBrightness));
+	ble->SetValue(BLE_FAN_SPEED_CHAR, &data.defaultFanSpeed, sizeof(data.defaultBrightness));
+	ble->SetValue(BLE_MIC_TOGGLE_CHAR, (uint8_t*)&data.micToggle, sizeof(data.micToggle));
 }
 
 bool Settings::WriteSettings() {
-	if(!CheckMagic()) {
+	if(!CheckMagic())
 		return false;
-	}
 
 	// TODO: CRC32
 
@@ -35,7 +38,9 @@ bool Settings::ResetSettings() {
 	return WriteSettings();
 }
 
-bool Settings::Init() { // Loads settings from EEPROM, or initialises EEPROM with empty settings if EEPROM is empty
+bool Settings::Init(BLEControl *_ble) { // Loads settings from EEPROM, or initialises EEPROM with empty settings if EEPROM is empty
+	ble = _ble;
+
 	EEPROM.begin(sizeof(SettingsData));
 
 	GetSettings();

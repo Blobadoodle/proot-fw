@@ -5,6 +5,7 @@
 #include <FastCRC.h>
 #include <Data/Constants.h>
 #include <Data/Expressions.h>
+#include <BLEControl.h>
 
 struct SettingsHeader {
 	char magic[7];
@@ -35,13 +36,14 @@ struct SettingsData {
 };
 
 class Settings {
-	private:
+	protected:
 		bool CheckMagic();
 		bool CheckRevision();
 		FastCRC32 CRC32;
+		BLEControl *ble;
 
 	public:
-		bool Init();
+		bool Init(BLEControl *_ble);
 		void GetSettings();
 		bool WriteSettings();
 		bool ResetSettings();

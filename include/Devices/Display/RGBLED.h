@@ -4,6 +4,8 @@
 #include <Data/Constants.h>
 #include <Chrono.h>
 #include <Settings.h>
+#include <BLEControl.h>
+
 class RGBLED {
 	protected:
         CRGB leftCheek[RGBLED_CHEEK_NUM];
@@ -16,8 +18,12 @@ class RGBLED {
 		uint8_t innerSpinnerPos = 10;
 		bool updatedInnerLastFrame = false;
 
+		void OnWriteBrightness(uint8_t newBrightness);
+
+		Settings *settings;
+		BLEControl *ble;
 	public:
-		void Init(Settings *settings);
+		void Init(Settings *_settings, BLEControl *_ble);
 		void HardwareTest();
 		void Tick();
 		void SetBrightness(uint8_t newBrightness);

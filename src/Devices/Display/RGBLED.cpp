@@ -1,10 +1,25 @@
 #include <Devices/Display/RGBLED.h>
 #include <Data/Configuration.h>
 
-void RGBLED::Init(Settings *settings) {
+void RGBLED::Init(Settings *_settings, BLEControl *_ble) {
+    settings = _settings;
+    ble = _ble;
+
     FastLED.addLeds<NEOPIXEL, RGBLED_RIGHT_CHEEK_PIN>(rightCheek, RGBLED_CHEEK_NUM);
     FastLED.addLeds<NEOPIXEL, RGBLED_LEFT_CHEEK_PIN>(leftCheek, RGBLED_CHEEK_NUM);
     FastLED.setBrightness(settings->data.defaultRgbBrightness * (255 / 15));
+
+	ble->SetWriteCallback(BLE_RGB_BRIGHTNESS_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+        OnWriteBrightness(pCharacteristic->getValue().data()[0]);
+    });
+}
+
+void RGBLED::OnWriteBrightness(uint8_t newBrightness) {
+    uint8_t actualNew = constrain(newBrightness, 1, 15);
+    SetBrightness(actualNew);
+
+    settings->data.defaultRgbBrightness = actualNew;
+    settings->WriteSettings();
 }
 
 void RGBLED::HardwareTest() {

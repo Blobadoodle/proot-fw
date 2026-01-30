@@ -14,27 +14,27 @@ bool Protogen::Init() {
 	digitalWrite(LDO2_EN, HIGH);
 	delay(10); // Wait for LDO2 to fully power up
 
-	bool settingSuccess = settings.Init();
+	// TODO: This whole init sequence sucks
+	FastLED.addLeds<NEOPIXEL, PIXEL_DATA>(&pixel, 1);
+	pixel = CRGB::Black;
+	bleControl.Init();
+	
+	bool settingSuccess = settings.Init(&bleControl);
 #ifdef RESET_EEPROM
 	Serial.println("Resetting EEPROM due to firmware flag.");
 	settings.ResetSettings();
 #endif
-	
-	FastLED.addLeds<NEOPIXEL, PIXEL_DATA>(&pixel, 1);
-	pixel = CRGB::Black;
 
-	// TODO: This sucks
 	battery.Init();
 	engine.Init();
 	bool gestureSensorSuccess = gestureSensor.Init();
-	stateManager.Init(&settings, &gestureSensor);
-	fan.Init(&settings);
-	mic.Init(&settings);
-	matrix.Init(&settings);
-	rgbled.Init(&settings);
+	stateManager.Init(&gestureSensor, &bleControl);
+	fan.Init(&settings, &bleControl);
+	mic.Init(&settings, &bleControl);
+	matrix.Init(&settings, &bleControl);
+	rgbled.Init(&settings, &bleControl);
 	bool internalDisplaySuccess = internalDisplay.Init(&stateManager, &settings, &battery);
 	userControls.Init(&stateManager, &matrix, &fan, &settings, &rgbled, &mic);
-	bleControl.Init();
 
 	if(settingSuccess && internalDisplaySuccess && gestureSensorSuccess) {
 		Serial.println("Successfully initialised!");
@@ -58,6 +58,8 @@ bool Protogen::Init() {
 #ifdef HARDWARE_TEST
 	Serial.println("Halting main loop and performing hardware test due to firmware flag.");
 #endif
+
+	bleControl.StartAdvertising(); // Only start advertising once all characteristics have been set
 
 	return fullyInitialised;
 };

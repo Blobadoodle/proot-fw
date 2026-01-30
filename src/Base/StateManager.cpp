@@ -1,5 +1,6 @@
 #include "StateManager.h"
 #include <Data/Configuration.h>
+#include <Data/Constants.h>
 #include <Arduino.h>
 
 void StateManager::Glitch() {
@@ -137,7 +138,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 	}
 }
 
-void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
+void StateManager::Init(GestureSensor *_gestureSensor, BLEControl *_ble) {
 	blinkFrameTimer.stop();
 	blinkShutTimer.stop();
 	glitchFrameTimer.stop();
@@ -150,9 +151,20 @@ void StateManager::Init(Settings *settings, GestureSensor *_gestureSensor) {
 	lastExpression = currentExpression;
 
 	gestureSensor = _gestureSensor;
+	ble = _ble;
+
+	ble->SetWriteCallback(BLE_CURRENT_EXPR_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+		_SetExpression(pCharacteristic->getValue().data()[0]);
+	});
 }
 
 void StateManager::SetExpression(uint8_t expressionNum) {
+	ble->SetValue(BLE_CURRENT_EXPR_CHAR, &expressionNum, sizeof(expressionNum));
+	ble->Indicate(BLE_CURRENT_EXPR_CHAR);
+	_SetExpression(expressionNum);
+}
+
+void StateManager::_SetExpression(uint8_t expressionNum) {
 	if(expressionNum == lastExpression) return;
 
 	hasExpressionChangedInbetweenFrames = true;
