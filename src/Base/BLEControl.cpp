@@ -22,16 +22,51 @@ void BLEControl::Init() {
     pAdvertising->start();
 }
 
+NimBLECharacteristic *BLEControl::CreateChar(std::string uuid, uint32_t properties) {
+    NimBLECharacteristic *characteristic = pService->createCharacteristic(uuid, properties);
+    characteristic->setCallbacks(this);
+    charMap.insert({uuid, characteristic});
+    return characteristic;
+}
+
+void BLEControl::Indicate(std::string uuid) {
+    NimBLECharacteristic *characteristic = charMap.at(uuid);
+    characteristic->indicate();
+}
+
+void BLEControl::SetValue(std::string uuid, const char *str) {
+    NimBLECharacteristic *characteristic = charMap.at(uuid);
+    characteristic->setValue(str);
+}
+
+void BLEControl::SetValue(std::string uuid, const uint8_t *data, size_t len) {
+    NimBLECharacteristic *characteristic = charMap.at(uuid);
+    characteristic->setValue(data, len);
+}
+
+void BLEControl::SetWriteCallback(std::string uuid, std::function<void(NimBLECharacteristic*, NimBLEConnInfo&)> callback) {
+    writeCallbacks.insert({uuid, callback});
+}
+
+void BLEControl::onWrite(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+    std::string uuid = pCharacteristic->getUUID().toString();
+
+    auto callback = writeCallbacks.find(uuid);
+    if(callback == writeCallbacks.end()) // No callback assigned
+        return;
+
+    callback->second(pCharacteristic, connInfo);
+}
+
 void BLEControl::SetupChars() {
     // Firmware info char
     String firmwareInfoStr = String(FIRMWARE_NAME) + "," + String(FIRMWARE_VERSION) + "," + String(SETTINGS_MAGIC) + "," + String(LATEST_SETTINGS_REVISION);
-    firmInfo = pService->createCharacteristic(BLE_FIRMWARE_CHAR, NIMBLE_PROPERTY::READ);
+    firmInfo = CreateChar(BLE_FIRMWARE_CHAR, NIMBLE_PROPERTY::READ);
     firmInfo->setValue(firmwareInfoStr.c_str());
 
     // Expression char's
-    currentExpression = pService->createCharacteristic(BLE_CURRENT_EXPR_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::NOTIFY);
-
-    availableExpressions = pService->createCharacteristic(BLE_AVAILABLE_EXPR_CHAR, NIMBLE_PROPERTY::READ);
+    currentExpression = CreateChar(BLE_CURRENT_EXPR_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::NOTIFY);
+    availableExpressions = CreateChar(BLE_AVAILABLE_EXPR_CHAR, NIMBLE_PROPERTY::READ);
     String expressionsStr = "";
     for(uint8_t i = 0; i < NUM_OF_EXPRESSIONS; i++) {
         expressionsStr += String(Expressions[i].name);
@@ -41,10 +76,10 @@ void BLEControl::SetupChars() {
     availableExpressions->setValue(expressionsStr.c_str());
     
     // Quick setting char's (also available from InternalDisplay)
-    displayBrightness = pService->createCharacteristic(BLE_DISPLAY_BRIGHTNESS_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
-    rgbBrightness = pService->createCharacteristic(BLE_RGB_BRIGHTNESS_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
-    fanSpeed = pService->createCharacteristic(BLE_FAN_SPEED_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
-    micToggle = pService->createCharacteristic(BLE_MIC_TOGGLE_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
+    displayBrightness = CreateChar(BLE_DISPLAY_BRIGHTNESS_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
+    rgbBrightness = CreateChar(BLE_RGB_BRIGHTNESS_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
+    fanSpeed = CreateChar(BLE_FAN_SPEED_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
+    micToggle = CreateChar(BLE_MIC_TOGGLE_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
 }
 
 void BLEControl::onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) {
