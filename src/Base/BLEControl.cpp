@@ -73,14 +73,14 @@ void BLEControl::onWrite(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& 
 
 void BLEControl::SetupChars() {
     // Firmware info char
-    String firmwareInfoStr = String(FIRMWARE_NAME) + "," + String(FIRMWARE_VERSION) + "," + String(SETTINGS_MAGIC) + "," + String(LATEST_SETTINGS_REVISION);
+    String firmwareInfoStr = String(FIRMWARE_NAME) + "," + FIRMWARE_VERSION + "," + SETTINGS_MAGIC + "," + String(LATEST_SETTINGS_REVISION) + "," + __DATE__ + " " + __TIME__; // This too kinda sucks
     firmInfo = CreateChar(BLE_FIRMWARE_CHAR, NIMBLE_PROPERTY::READ);
     firmInfo->setValue(firmwareInfoStr.c_str());
 
     // Expression char's
     currentExpression = CreateChar(BLE_CURRENT_EXPR_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE | NIMBLE_PROPERTY::INDICATE);
-    // const uint8_t *data = {DEFAULT_EXPRESSION};
-    // currentExpression->setValue(data, 1);
+    const uint8_t data[] = {DEFAULT_EXPRESSION};
+    currentExpression->setValue(data, sizeof(data));
 
     availableExpressions = CreateChar(BLE_AVAILABLE_EXPR_CHAR, PROPERTY_AUTH_READ);
     String expressionsStr = "";
@@ -92,7 +92,6 @@ void BLEControl::SetupChars() {
     availableExpressions->setValue(expressionsStr.c_str());
     
     // Quick setting char's (also available from InternalDisplay)
-    // Holy fuck these long ass properties suck
     displayBrightness = CreateChar(BLE_DISPLAY_BRIGHTNESS_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
     rgbBrightness = CreateChar(BLE_RGB_BRIGHTNESS_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
     fanSpeed = CreateChar(BLE_FAN_SPEED_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
