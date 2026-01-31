@@ -4,8 +4,14 @@
 #include <Data/Expressions.h>
 #include <Arduino.h>
 
+#define PROPERTY_AUTH_WRITE NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::WRITE_ENC | NIMBLE_PROPERTY::WRITE_AUTHEN
+#define PROPERTY_AUTH_READ NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::READ_ENC | NIMBLE_PROPERTY::READ_AUTHEN
+
 void BLEControl::Init() {
     NimBLEDevice::init(BLE_NAME);
+    NimBLEDevice::setSecurityAuth(true, true, true);
+    NimBLEDevice::setSecurityIOCap(BLE_HS_IO_DISPLAY_ONLY); // TODO: Have Yes/No on HUD
+    NimBLEDevice::setSecurityPasskey(BLE_PASSKEY); // TODO: Randomise
 
     pServer = NimBLEDevice::createServer();
     pServer->setCallbacks(this);
@@ -72,11 +78,11 @@ void BLEControl::SetupChars() {
     firmInfo->setValue(firmwareInfoStr.c_str());
 
     // Expression char's
-    currentExpression = CreateChar(BLE_CURRENT_EXPR_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::INDICATE);
+    currentExpression = CreateChar(BLE_CURRENT_EXPR_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE | NIMBLE_PROPERTY::INDICATE);
     // const uint8_t *data = {DEFAULT_EXPRESSION};
     // currentExpression->setValue(data, 1);
 
-    availableExpressions = CreateChar(BLE_AVAILABLE_EXPR_CHAR, NIMBLE_PROPERTY::READ);
+    availableExpressions = CreateChar(BLE_AVAILABLE_EXPR_CHAR, PROPERTY_AUTH_READ);
     String expressionsStr = "";
     for(uint8_t i = 0; i < NUM_OF_EXPRESSIONS; i++) {
         expressionsStr += String(Expressions[i].name);
@@ -86,10 +92,11 @@ void BLEControl::SetupChars() {
     availableExpressions->setValue(expressionsStr.c_str());
     
     // Quick setting char's (also available from InternalDisplay)
-    displayBrightness = CreateChar(BLE_DISPLAY_BRIGHTNESS_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
-    rgbBrightness = CreateChar(BLE_RGB_BRIGHTNESS_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
-    fanSpeed = CreateChar(BLE_FAN_SPEED_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
-    micToggle = CreateChar(BLE_MIC_TOGGLE_CHAR, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE);
+    // Holy fuck these long ass properties suck
+    displayBrightness = CreateChar(BLE_DISPLAY_BRIGHTNESS_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+    rgbBrightness = CreateChar(BLE_RGB_BRIGHTNESS_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+    fanSpeed = CreateChar(BLE_FAN_SPEED_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+    micToggle = CreateChar(BLE_MIC_TOGGLE_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
 }
 
 void BLEControl::onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) {

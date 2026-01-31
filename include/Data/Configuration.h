@@ -91,6 +91,8 @@
 // Name/Icon to show in BLE device list
 #define BLE_NAME "Proot"
 #define BLE_APPEARANCE 0x0905 // (Toaster) Refer to Bluetooth Assigned Numbers
+// 6-digit passkey for BLE
+#define BLE_PASSKEY 676767
 
 // Perform a hardware test on startup
 // #define HARDWARE_TEST
