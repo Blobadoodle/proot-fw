@@ -27,6 +27,7 @@ class BLEControl: public NimBLEServerCallbacks, public NimBLECharacteristicCallb
         std::unordered_map<std::string, std::function<void(NimBLECharacteristic*, NimBLEConnInfo&)>> writeCallbacks;
         NimBLECharacteristic* CreateChar(std::string uuid, uint32_t properties);
 
+        // TODO: Store these only in the unordered map
         NimBLECharacteristic *firmInfo;
 
         NimBLECharacteristic *currentExpression;
@@ -36,4 +37,8 @@ class BLEControl: public NimBLEServerCallbacks, public NimBLECharacteristicCallb
         NimBLECharacteristic *rgbBrightness;
         NimBLECharacteristic *fanSpeed;
         NimBLECharacteristic *micToggle;
+
+        NimBLECharacteristic *forceBoop;
+        NimBLECharacteristic *forceGlitch;
+        NimBLECharacteristic *forceBlink;
 };

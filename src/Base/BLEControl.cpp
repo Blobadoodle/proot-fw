@@ -96,6 +96,10 @@ void BLEControl::SetupChars() {
     rgbBrightness = CreateChar(BLE_RGB_BRIGHTNESS_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
     fanSpeed = CreateChar(BLE_FAN_SPEED_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
     micToggle = CreateChar(BLE_MIC_TOGGLE_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+
+    // Controls
+    forceGlitch = CreateChar(BLE_FORCE_GLITCH, PROPERTY_AUTH_WRITE);
+    forceBlink = CreateChar(BLE_FORCE_BLINK, PROPERTY_AUTH_WRITE);
 }
 
 void BLEControl::onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) {

@@ -64,27 +64,39 @@ void StateManager::Blink() {
 	}
 }
 
+void StateManager::StartBlinking() {
+	isBlinking = true;
+	redrawNeeded = true;
+}
+
+void StateManager::StartGlitching() {
+	isGlitching = true;
+	redrawNeeded = true;
+}
+
 void StateManager::Update(bool boopPresent, double voicePower) {
 	redrawNeeded = false;
 
 	if(isGlitching) {
 		Glitch();
 	} else if(glitchTimer.hasPassed(nextGlitchTime)) {
-		isGlitching = true;
-		redrawNeeded = true;
-	
+		StartGlitching();
 		glitchFrameTimer.start();
 		glitchTimer.stop();
+	} else if(forceNextGlitch) {
+		StartGlitching();
+		forceNextGlitch = false;
 	}
 	
 	if(isBlinking) {
 		Blink();
 	} else if(blinkTimer.hasPassed(nextBlinkTime)) {
-		isBlinking = true;
-		redrawNeeded = true;
-
+		StartBlinking();
 		blinkFrameTimer.start();
 		blinkTimer.stop();
+	} else if(forceNextBlink) {
+		StartBlinking();
+		forceNextBlink = false;
 	}
 
 	// Fixes flashing every time BOOP_COOLDOWN is finished
@@ -95,10 +107,10 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 		currentExpression = EXPRESSION_VWV;
 		midTransition = true;
 		transitionFrame = 1;
-		transitionFrameTimer.restart();
 		isBooping = true;
-		boopTimer.restart();
 		redrawNeeded = true;
+		transitionFrameTimer.restart();
+		boopTimer.restart();
 	} else if(!boopPresent && isBooping && boopTimer.hasPassed(BOOP_COOLDOWN)) {
 		currentExpression = lastExpression;
 		isBooping = false;
@@ -155,6 +167,14 @@ void StateManager::Init(GestureSensor *_gestureSensor, BLEControl *_ble) {
 
 	ble->SetWriteCallback(BLE_CURRENT_EXPR_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
 		_SetExpression(pCharacteristic->getValue().data()[0]);
+	});
+
+	ble->SetWriteCallback(BLE_FORCE_BLINK, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+		forceNextBlink = true;
+	});
+
+	ble->SetWriteCallback(BLE_FORCE_GLITCH, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+		forceNextGlitch = true;
 	});
 }
 

@@ -66,9 +66,15 @@ class StateManager {
 
 		bool hasExpressionChangedInbetweenFrames = false; // long ahh variable name
 
+		bool forceNextBlink = false;
+		bool forceNextGlitch = false;
+
 		BLEControl *ble;
 
 		void Glitch();
 		void Blink();
 		void _SetExpression(uint8_t expressionNum);
+
+		void StartBlinking();
+		void StartGlitching();
 };
