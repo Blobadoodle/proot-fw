@@ -7,6 +7,8 @@ class BLEControl: public NimBLEServerCallbacks, public NimBLECharacteristicCallb
     public:
         void Init();
         void StartAdvertising();
+        bool ClientConnected();
+
         void onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) override;
         void onWrite(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) override;
 

@@ -49,7 +49,7 @@ std::tuple<uint8_t, uint8_t> getCoordsForExpressionButton(uint8_t expressionNum)
 	return std::make_tuple(x, y);
 }
 
-void InternalDisplay::Update(const uint8_t *bitmap) {
+void InternalDisplay::Update(const uint8_t *bitmap, bool bleConnected) {
 	display.clearDisplay();
 
 	display.drawBitmap(0, 0, Bitmaps::InternalDisplay::UI, 128, 128, SH110X_WHITE);
@@ -59,6 +59,10 @@ void InternalDisplay::Update(const uint8_t *bitmap) {
 	display.setTextSize(1);
 	display.setTextColor(SH110X_BLACK, SH110X_WHITE);
 	display.print(FIRMWARE_VERSION);
+
+	// Draw top left BT symbol if connected
+	if(bleConnected)
+		display.drawBitmap(display.getCursorX(), 1, Bitmaps::InternalDisplay::Bluetooth, 5, 7, SH110X_WHITE, SH110X_BLACK);
 
 	// Only update battery if atleast 15 seconds have passed since last battery as ADC inaccuracies can cause the % to flicker
 	if(batteryUpdateTime.hasPassed(BATTERY_UPDATE_TIME)) {

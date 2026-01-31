@@ -21,6 +21,10 @@ void BLEControl::Init() {
     pAdvertising->addServiceUUID(pService->getUUID());
 }
 
+bool BLEControl::ClientConnected() {
+    return pServer->getConnectedCount() >= 1;
+}
+
 void BLEControl::StartAdvertising() {
     pAdvertising->start();
 }

@@ -80,10 +80,10 @@ void Protogen::Tick() {
 	if(stateManager.redrawNeeded) { // Update the screen if it needs to be
 		engine.Update(stateManager); // Turn the state into a bitmap
 		matrix.Update(engine.canvas.getBuffer()); // Update the LED matrix
-		internalDisplay.Update(engine.canvas.getBuffer()); // Update the internal HUD
+		internalDisplay.Update(engine.canvas.getBuffer(), bleControl.ClientConnected()); // Update the internal HUD
 	} else if(stateManager.internalOnlyRedrawNeeded) { // Redraw the internal HUD only if needed
 		stateManager.internalOnlyRedrawNeeded = false;
-		internalDisplay.Update(engine.canvas.getBuffer());
+		internalDisplay.Update(engine.canvas.getBuffer(), bleControl.ClientConnected());
 	}
 
 	rgbled.Tick(); // Update the RGB LEDs

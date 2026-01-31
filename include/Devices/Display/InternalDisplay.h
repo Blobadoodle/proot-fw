@@ -22,7 +22,7 @@ class InternalDisplay {
 	public:
 		bool Init(StateManager *_state, Settings *_settings, Battery *_battery);
 
-		void Update(const uint8_t *bitmap);
+		void Update(const uint8_t *bitmap, bool bleConnected);
 		bool showError = false;
 
 		void HardwareTest();
