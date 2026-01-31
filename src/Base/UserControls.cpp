@@ -16,7 +16,7 @@ void UserControls::OnClick() {
 		switch(state->selectedQuickSetting) {
 			case QuickSetting::RGBBrightness:
 				if(rgbled->brightness >= 15)
-					rgbled->SetBrightness(1);
+					rgbled->SetBrightness(0);
 				else
 					rgbled->SetBrightness(rgbled->brightness + 1);
 				settings->data.defaultRgbBrightness = rgbled->brightness;
@@ -32,7 +32,7 @@ void UserControls::OnClick() {
 
 			case QuickSetting::Brightness:
 				if(matrix->brightness >= 15)
-					matrix->SetBrightness(1);
+					matrix->SetBrightness(0);
 				else
 					matrix->SetBrightness(matrix->brightness + 1);
 				settings->data.defaultBrightness = matrix->brightness;

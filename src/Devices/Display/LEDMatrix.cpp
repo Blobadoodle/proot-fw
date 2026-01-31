@@ -24,7 +24,7 @@ void LEDMatrix::Init(Settings *_settings, BLEControl *_ble) {
 }
 
 void LEDMatrix::OnWriteIntensity(uint8_t newIntensity) {
-	uint8_t actualNew = constrain(newIntensity, 1, 15);
+	uint8_t actualNew = constrain(newIntensity, 0, 15);
 	SetBrightness(actualNew);
 
 	settings->data.defaultBrightness = actualNew;

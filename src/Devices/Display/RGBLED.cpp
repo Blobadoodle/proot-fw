@@ -15,7 +15,7 @@ void RGBLED::Init(Settings *_settings, BLEControl *_ble) {
 }
 
 void RGBLED::OnWriteBrightness(uint8_t newBrightness) {
-    uint8_t actualNew = constrain(newBrightness, 1, 15);
+    uint8_t actualNew = constrain(newBrightness, 0, 15);
     SetBrightness(actualNew);
 
     settings->data.defaultRgbBrightness = actualNew;
