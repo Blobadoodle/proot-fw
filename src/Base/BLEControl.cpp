@@ -47,6 +47,11 @@ void BLEControl::Indicate(std::string uuid) {
     characteristic->indicate();
 }
 
+void BLEControl::Notify(std::string uuid) {
+    NimBLECharacteristic *characteristic = charMap.at(uuid);
+    characteristic->notify();
+}
+
 void BLEControl::SetValue(std::string uuid, const char *str) {
     NimBLECharacteristic *characteristic = charMap.at(uuid);
     characteristic->setValue(str);
@@ -101,6 +106,8 @@ void BLEControl::SetupChars() {
     // Controls
     forceGlitch = CreateChar(BLE_FORCE_GLITCH, PROPERTY_AUTH_WRITE);
     forceBlink = CreateChar(BLE_FORCE_BLINK, PROPERTY_AUTH_WRITE);
+
+    boopCounter = CreateChar(BLE_BOOP_COUNTER, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
 }
 
 void BLEControl::onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) {

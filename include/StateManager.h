@@ -4,6 +4,7 @@
 #include <Chrono.h>
 #include <Devices/GestureSensor.h>
 #include <BLEControl.h>
+#include <Settings.h>
 
 enum class Focus {
 	Expressions,
@@ -19,7 +20,7 @@ enum class QuickSetting {
 
 class StateManager {
 	public:
-		void Init(GestureSensor *_gestureSensor, BLEControl *_ble);
+		void Init(GestureSensor *_gestureSensor, BLEControl *_ble, Settings *_settings);
 		void Update(bool boopPresent, double voicePower);
 		void SetExpression(uint8_t expressionNum);
 
@@ -58,7 +59,6 @@ class StateManager {
 		
 		int lastMawStage = 0;
 	
-		GestureSensor *gestureSensor;
 		Chrono boopTimer = Chrono();
 
 		uint8_t glitchStep = 0;
@@ -69,7 +69,9 @@ class StateManager {
 		bool forceNextBlink = false;
 		bool forceNextGlitch = false;
 
+		GestureSensor *gestureSensor;
 		BLEControl *ble;
+		Settings *settings;
 
 		void Glitch();
 		void Blink();

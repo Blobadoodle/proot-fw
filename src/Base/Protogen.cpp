@@ -28,7 +28,7 @@ bool Protogen::Init() {
 	battery.Init();
 	engine.Init();
 	bool gestureSensorSuccess = gestureSensor.Init();
-	stateManager.Init(&gestureSensor, &bleControl);
+	stateManager.Init(&gestureSensor, &bleControl, &settings);
 	fan.Init(&settings, &bleControl);
 	mic.Init(&settings, &bleControl);
 	matrix.Init(&settings, &bleControl);

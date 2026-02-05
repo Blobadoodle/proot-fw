@@ -111,6 +111,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 		redrawNeeded = true;
 		transitionFrameTimer.restart();
 		boopTimer.restart();
+		settings->IncrementBoopCounter();
 	} else if(!boopPresent && isBooping && boopTimer.hasPassed(BOOP_COOLDOWN)) {
 		currentExpression = lastExpression;
 		isBooping = false;
@@ -150,7 +151,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 	}
 }
 
-void StateManager::Init(GestureSensor *_gestureSensor, BLEControl *_ble) {
+void StateManager::Init(GestureSensor *_gestureSensor, BLEControl *_ble, Settings *_settings) {
 	blinkFrameTimer.stop();
 	blinkShutTimer.stop();
 	glitchFrameTimer.stop();
@@ -164,6 +165,7 @@ void StateManager::Init(GestureSensor *_gestureSensor, BLEControl *_ble) {
 
 	gestureSensor = _gestureSensor;
 	ble = _ble;
+	settings = _settings;
 
 	ble->SetWriteCallback(BLE_CURRENT_EXPR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
 		_SetExpression(pCharacteristic->getValue().data()[0]);

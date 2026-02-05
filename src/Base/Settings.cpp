@@ -2,6 +2,7 @@
 #include <WString.h> // Needed for EEPROM.h
 #include <EEPROM.h>
 #include <Settings.h>
+#include <stddef.h>
 
 bool Settings::CheckMagic() { // Returns true/fales if the magic is or isn't correct
 	return memcmp(data.header.magic, SETTINGS_MAGIC, sizeof(SETTINGS_MAGIC)) == 0;
@@ -17,6 +18,7 @@ void Settings::GetSettings() { // Loads the settings from the EEPROM into this.d
 	ble->SetValue(BLE_RGB_BRIGHTNESS, &data.defaultRgbBrightness, sizeof(data.defaultBrightness));
 	ble->SetValue(BLE_FAN_SPEED, &data.defaultFanSpeed, sizeof(data.defaultBrightness));
 	ble->SetValue(BLE_MIC_TOGGLE, (uint8_t*)&data.micToggle, sizeof(data.micToggle));
+	ble->SetValue(BLE_BOOP_COUNTER, (uint8_t*)&data.boopCounter, sizeof(data.boopCounter));
 }
 
 bool Settings::WriteSettings() {
@@ -36,6 +38,16 @@ bool Settings::WriteSettings() {
 bool Settings::ResetSettings() {
 	data = SettingsData();
 	return WriteSettings();
+}
+
+void Settings::IncrementBoopCounter() {
+	data.boopCounter++;
+	
+	EEPROM.put(offsetof(SettingsData, boopCounter), data.boopCounter);
+	EEPROM.commit();
+
+	ble->SetValue(BLE_BOOP_COUNTER, (uint8_t*)&data.boopCounter, sizeof(data.boopCounter));
+	ble->Notify(BLE_BOOP_COUNTER);
 }
 
 bool Settings::Init(BLEControl *_ble) { // Loads settings from EEPROM, or initialises EEPROM with empty settings if EEPROM is empty

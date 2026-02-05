@@ -16,6 +16,7 @@ class BLEControl: public NimBLEServerCallbacks, public NimBLECharacteristicCallb
         void SetValue(std::string uuid, const char *str);
         void SetValue(std::string uuid, const uint8_t *data, size_t len);
         void Indicate(std::string uuid);
+        void Notify(std::string uuid);
     protected:
         NimBLEServer *pServer;
         NimBLEService *pService;
@@ -29,6 +30,7 @@ class BLEControl: public NimBLEServerCallbacks, public NimBLECharacteristicCallb
 
         // TODO: Store these only in the unordered map
         NimBLECharacteristic *firmInfo;
+        NimBLECharacteristic *boopCounter;
 
         NimBLECharacteristic *currentExpression;
         NimBLECharacteristic *availableExpressions;

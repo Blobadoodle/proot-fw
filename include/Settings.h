@@ -25,6 +25,7 @@ struct SettingsData {
 	uint8_t defaultBrightness;
 	uint8_t defaultFanSpeed;
 	bool micToggle;
+	uint32_t boopCounter;
 	
 	SettingsData() { // Default values
 		header = SettingsHeader();
@@ -32,6 +33,7 @@ struct SettingsData {
 		defaultBrightness = 1;
 		defaultFanSpeed = 0;
 		micToggle = true;
+		boopCounter = 0;
 	}
 };
 
@@ -47,5 +49,6 @@ class Settings {
 		void GetSettings();
 		bool WriteSettings();
 		bool ResetSettings();
+		void IncrementBoopCounter();
 		SettingsData data;
 };
