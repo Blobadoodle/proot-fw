@@ -83,10 +83,10 @@
 #define RGBLED_FRAME_TIME 100
 
 // RGB LED gradient values
-#define RGBLED_COLOUR_1 0x3A61B4
-#define RGBLED_COLOUR_2 0x80D6E0
-#define RGBLED_POSITION_2 160 // 0-255
-#define RGBLED_COLOUR_3 0xCEEBDF
+#define RGBLED_COLOUR_1 0xD70270
+#define RGBLED_COLOUR_2 0x734F96
+#define RGBLED_POSITION_2 128 // 0-255
+#define RGBLED_COLOUR_3 0x0038A8
 
 // Name/Icon to show in BLE device list
 #define BLE_NAME "Proot"
