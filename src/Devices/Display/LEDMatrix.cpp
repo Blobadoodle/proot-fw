@@ -18,7 +18,7 @@ void LEDMatrix::Init(Settings *_settings, BLEControl *_ble) {
 	matrix.fillScreen(LOW);
 	matrix.write();
 
-	ble->SetWriteCallback(BLE_DISPLAY_BRIGHTNESS_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+	ble->SetWriteCallback(BLE_DISPLAY_BRIGHTNESS, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
 		OnWriteIntensity(pCharacteristic->getValue().data()[0]);
 	});
 }
@@ -28,7 +28,6 @@ void LEDMatrix::OnWriteIntensity(uint8_t newIntensity) {
 	SetBrightness(actualNew);
 
 	settings->data.defaultBrightness = actualNew;
-	settings->WriteSettings();
 }
 
 void LEDMatrix::SetBrightness(uint8_t newBrightness) {

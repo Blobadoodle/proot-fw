@@ -37,6 +37,7 @@ class BLEControl: public NimBLEServerCallbacks, public NimBLECharacteristicCallb
         NimBLECharacteristic *rgbBrightness;
         NimBLECharacteristic *fanSpeed;
         NimBLECharacteristic *micToggle;
+        NimBLECharacteristic *writeSettings;
 
         NimBLECharacteristic *forceBoop;
         NimBLECharacteristic *forceGlitch;

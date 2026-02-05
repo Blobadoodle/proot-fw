@@ -74,15 +74,15 @@ void BLEControl::onWrite(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& 
 void BLEControl::SetupChars() {
     // Firmware info char
     String firmwareInfoStr = String(FIRMWARE_NAME) + "," + FIRMWARE_VERSION + "," + SETTINGS_MAGIC + "," + String(LATEST_SETTINGS_REVISION) + "," + __DATE__ + " " + __TIME__; // This too kinda sucks
-    firmInfo = CreateChar(BLE_FIRMWARE_CHAR, NIMBLE_PROPERTY::READ);
+    firmInfo = CreateChar(BLE_FIRMWARE, NIMBLE_PROPERTY::READ);
     firmInfo->setValue(firmwareInfoStr.c_str());
 
     // Expression char's
-    currentExpression = CreateChar(BLE_CURRENT_EXPR_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE | NIMBLE_PROPERTY::INDICATE);
+    currentExpression = CreateChar(BLE_CURRENT_EXPR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE | NIMBLE_PROPERTY::INDICATE);
     const uint8_t data[] = {DEFAULT_EXPRESSION};
     currentExpression->setValue(data, sizeof(data));
 
-    availableExpressions = CreateChar(BLE_AVAILABLE_EXPR_CHAR, PROPERTY_AUTH_READ);
+    availableExpressions = CreateChar(BLE_AVAILABLE_EXPR, PROPERTY_AUTH_READ);
     String expressionsStr = "";
     for(uint8_t i = 0; i < NUM_OF_EXPRESSIONS; i++) {
         expressionsStr += String(Expressions[i].name);
@@ -92,10 +92,11 @@ void BLEControl::SetupChars() {
     availableExpressions->setValue(expressionsStr.c_str());
     
     // Quick setting char's (also available from InternalDisplay)
-    displayBrightness = CreateChar(BLE_DISPLAY_BRIGHTNESS_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
-    rgbBrightness = CreateChar(BLE_RGB_BRIGHTNESS_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
-    fanSpeed = CreateChar(BLE_FAN_SPEED_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
-    micToggle = CreateChar(BLE_MIC_TOGGLE_CHAR, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+    displayBrightness = CreateChar(BLE_DISPLAY_BRIGHTNESS, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+    rgbBrightness = CreateChar(BLE_RGB_BRIGHTNESS, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+    fanSpeed = CreateChar(BLE_FAN_SPEED, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+    micToggle = CreateChar(BLE_MIC_TOGGLE, PROPERTY_AUTH_READ | PROPERTY_AUTH_WRITE);
+    writeSettings = CreateChar(BLE_WRITE_SETTINGS, PROPERTY_AUTH_WRITE);
 
     // Controls
     forceGlitch = CreateChar(BLE_FORCE_GLITCH, PROPERTY_AUTH_WRITE);

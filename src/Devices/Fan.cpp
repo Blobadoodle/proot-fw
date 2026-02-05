@@ -9,7 +9,7 @@ void Fan::Init(Settings *_settings, BLEControl *_ble) {
 	pinMode(FAN_PIN, OUTPUT);
 	SetFanSpeed(settings->data.defaultFanSpeed);
 
-	ble->SetWriteCallback(BLE_FAN_SPEED_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+	ble->SetWriteCallback(BLE_FAN_SPEED, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
 		OnWriteSpeed(pCharacteristic->getValue().data()[0]);
 	});
 }
@@ -19,7 +19,6 @@ void Fan::OnWriteSpeed(uint8_t newSpeed) {
 	SetFanSpeed(actualNew);
 
 	settings->data.defaultFanSpeed = actualNew;
-	settings->WriteSettings();
 }
 
 // newFanSpeed 0->10

@@ -15,7 +15,7 @@ void Microphone::Init(Settings *_settings, BLEControl *_ble) {
     SetGain(MIC_GAIN_VALUE);
     Toggle(settings->data.micToggle);
 
-    ble->SetWriteCallback(BLE_MIC_TOGGLE_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+    ble->SetWriteCallback(BLE_MIC_TOGGLE, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
 		OnWriteToggle(pCharacteristic->getValue().data()[0]);
 	});
 }
@@ -24,7 +24,6 @@ void Microphone::OnWriteToggle(bool newToggle) {
     Toggle(newToggle);
 
     settings->data.micToggle = newToggle;
-    settings->WriteSettings();
 }
 
 void Microphone::SetGain(uint8_t newGain) {

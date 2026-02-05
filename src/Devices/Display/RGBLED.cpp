@@ -9,7 +9,7 @@ void RGBLED::Init(Settings *_settings, BLEControl *_ble) {
     FastLED.addLeds<NEOPIXEL, RGBLED_LEFT_CHEEK_PIN>(leftCheek, RGBLED_CHEEK_NUM);
     FastLED.setBrightness(settings->data.defaultRgbBrightness * (255 / 15));
 
-	ble->SetWriteCallback(BLE_RGB_BRIGHTNESS_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+	ble->SetWriteCallback(BLE_RGB_BRIGHTNESS, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
         OnWriteBrightness(pCharacteristic->getValue().data()[0]);
     });
 }
@@ -19,7 +19,6 @@ void RGBLED::OnWriteBrightness(uint8_t newBrightness) {
     SetBrightness(actualNew);
 
     settings->data.defaultRgbBrightness = actualNew;
-    settings->WriteSettings();
 }
 
 void RGBLED::HardwareTest() {

@@ -165,7 +165,7 @@ void StateManager::Init(GestureSensor *_gestureSensor, BLEControl *_ble) {
 	gestureSensor = _gestureSensor;
 	ble = _ble;
 
-	ble->SetWriteCallback(BLE_CURRENT_EXPR_CHAR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+	ble->SetWriteCallback(BLE_CURRENT_EXPR, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
 		_SetExpression(pCharacteristic->getValue().data()[0]);
 	});
 
@@ -179,8 +179,8 @@ void StateManager::Init(GestureSensor *_gestureSensor, BLEControl *_ble) {
 }
 
 void StateManager::SetExpression(uint8_t expressionNum) {
-	ble->SetValue(BLE_CURRENT_EXPR_CHAR, &expressionNum, sizeof(expressionNum));
-	ble->Indicate(BLE_CURRENT_EXPR_CHAR);
+	ble->SetValue(BLE_CURRENT_EXPR, &expressionNum, sizeof(expressionNum));
+	ble->Indicate(BLE_CURRENT_EXPR);
 	_SetExpression(expressionNum);
 }
 

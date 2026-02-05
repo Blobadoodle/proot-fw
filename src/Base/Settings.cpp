@@ -13,10 +13,10 @@ bool Settings::CheckRevision() {
 
 void Settings::GetSettings() { // Loads the settings from the EEPROM into this.data
 	EEPROM.get(0, data);
-	ble->SetValue(BLE_DISPLAY_BRIGHTNESS_CHAR, &data.defaultBrightness, sizeof(data.defaultBrightness));
-	ble->SetValue(BLE_RGB_BRIGHTNESS_CHAR, &data.defaultRgbBrightness, sizeof(data.defaultBrightness));
-	ble->SetValue(BLE_FAN_SPEED_CHAR, &data.defaultFanSpeed, sizeof(data.defaultBrightness));
-	ble->SetValue(BLE_MIC_TOGGLE_CHAR, (uint8_t*)&data.micToggle, sizeof(data.micToggle));
+	ble->SetValue(BLE_DISPLAY_BRIGHTNESS, &data.defaultBrightness, sizeof(data.defaultBrightness));
+	ble->SetValue(BLE_RGB_BRIGHTNESS, &data.defaultRgbBrightness, sizeof(data.defaultBrightness));
+	ble->SetValue(BLE_FAN_SPEED, &data.defaultFanSpeed, sizeof(data.defaultBrightness));
+	ble->SetValue(BLE_MIC_TOGGLE, (uint8_t*)&data.micToggle, sizeof(data.micToggle));
 }
 
 bool Settings::WriteSettings() {
@@ -53,6 +53,10 @@ bool Settings::Init(BLEControl *_ble) { // Loads settings from EEPROM, or initia
 			return false;
 		}
 	}
+
+	ble->SetWriteCallback(BLE_WRITE_SETTINGS, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
+		WriteSettings();
+	});
 
 	return true;
 }
