@@ -31,6 +31,7 @@ class BLEControl: public NimBLEServerCallbacks, public NimBLECharacteristicCallb
         // TODO: Store these only in the unordered map
         NimBLECharacteristic *firmInfo;
         NimBLECharacteristic *boopCounter;
+        NimBLECharacteristic *sessionBoopCounter;
 
         NimBLECharacteristic *currentExpression;
         NimBLECharacteristic *availableExpressions;

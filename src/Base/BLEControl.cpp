@@ -108,6 +108,7 @@ void BLEControl::SetupChars() {
     forceBlink = CreateChar(BLE_FORCE_BLINK, PROPERTY_AUTH_WRITE);
 
     boopCounter = CreateChar(BLE_BOOP_COUNTER, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
+    sessionBoopCounter = CreateChar(BLE_SESSION_BOOP_COUNTER, NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::NOTIFY);
 }
 
 void BLEControl::onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) {

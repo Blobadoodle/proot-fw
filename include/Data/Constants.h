@@ -43,6 +43,7 @@
 #define BLE_PROTOGEN_SERVICE "7777" // Should be 128-bit but then it's too long for an advertisement packet
 #define BLE_FIRMWARE "4db97151-1825-49b7-862c-999e50f7a1de"
 #define BLE_BOOP_COUNTER "29b8f3ff-4300-4152-b038-78132c4ffba4"
+#define BLE_SESSION_BOOP_COUNTER "d8662649-cbe1-4737-826b-196bec315a27"
 
 #define BLE_CURRENT_EXPR "be0bf400-b046-4c76-b778-0e3a61edd7b6"
 #define BLE_AVAILABLE_EXPR "5d902e7e-619f-471e-bbc8-898e5da171de"

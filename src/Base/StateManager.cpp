@@ -74,6 +74,13 @@ void StateManager::StartGlitching() {
 	redrawNeeded = true;
 }
 
+void StateManager::IncrementBoopCounter() {
+	settings->IncrementBoopCounter();
+	sessionBoopCounter++;
+	ble->SetValue(BLE_SESSION_BOOP_COUNTER, (uint8_t*)&sessionBoopCounter, sizeof(sessionBoopCounter));
+	ble->Notify(BLE_SESSION_BOOP_COUNTER);
+}
+
 void StateManager::Update(bool boopPresent, double voicePower) {
 	redrawNeeded = false;
 
@@ -111,8 +118,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 		redrawNeeded = true;
 		transitionFrameTimer.restart();
 		boopTimer.restart();
-		settings->IncrementBoopCounter();
-		sessionBoopCounter++;
+		IncrementBoopCounter();
 	} else if(!boopPresent && isBooping && boopTimer.hasPassed(BOOP_COOLDOWN)) {
 		currentExpression = lastExpression;
 		isBooping = false;
@@ -179,6 +185,8 @@ void StateManager::Init(GestureSensor *_gestureSensor, BLEControl *_ble, Setting
 	ble->SetWriteCallback(BLE_FORCE_GLITCH, [this](NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo) {
 		forceNextGlitch = true;
 	});
+
+	ble->SetValue(BLE_SESSION_BOOP_COUNTER, (uint8_t*)&sessionBoopCounter, sizeof(sessionBoopCounter));
 }
 
 void StateManager::SetExpression(uint8_t expressionNum) {

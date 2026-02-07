@@ -81,4 +81,6 @@ class StateManager {
 
 		void StartBlinking();
 		void StartGlitching();
+
+		void IncrementBoopCounter();
 };
