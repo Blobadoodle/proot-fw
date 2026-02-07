@@ -37,6 +37,8 @@ class StateManager {
 
 		int mawStage = 0;
 
+		uint32_t sessionBoopCounter = 0;
+
 		uint8_t currentExpression;
 		uint8_t lastExpression;
 		bool midTransition = false;

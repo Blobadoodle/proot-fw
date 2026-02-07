@@ -112,6 +112,7 @@ void StateManager::Update(bool boopPresent, double voicePower) {
 		transitionFrameTimer.restart();
 		boopTimer.restart();
 		settings->IncrementBoopCounter();
+		sessionBoopCounter++;
 	} else if(!boopPresent && isBooping && boopTimer.hasPassed(BOOP_COOLDOWN)) {
 		currentExpression = lastExpression;
 		isBooping = false;

@@ -109,7 +109,7 @@ void InternalDisplay::Update(const uint8_t *bitmap, bool bleConnected) {
 	// Draw boop counter value
 	display.setTextColor(SH110X_WHITE, SH110X_BLACK);
 	display.setCursor(25, 56);
-	display.printf("%d", settings->data.boopCounter);
+	display.printf("%d (%d)", state->sessionBoopCounter, settings->data.boopCounter);
 
 	// Draw the mic level icons
 	if(state->mawStage >= MAW_THRESHOLD_1)
