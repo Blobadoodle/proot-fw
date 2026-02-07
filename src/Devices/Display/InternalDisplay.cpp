@@ -112,12 +112,12 @@ void InternalDisplay::Update(const uint8_t *bitmap, bool bleConnected) {
 	display.printf("%d (%d)", state->sessionBoopCounter, settings->data.boopCounter);
 
 	// Draw the mic level icons
-	if(state->mawStage >= MAW_THRESHOLD_1)
-		display.drawBitmap(10, 68, Bitmaps::InternalDisplay::Speaker1, 2, 6, SH110X_WHITE);
-	if(state->mawStage >= MAW_THRESHOLD_1)
-		display.drawBitmap(11, 66, Bitmaps::InternalDisplay::Speaker2, 3, 10, SH110X_WHITE);
-	if(state->mawStage >= MAW_THRESHOLD_1)
+	if(state->mawStage >= MAW_THRESHOLD_3)
 		display.drawBitmap(12, 64, Bitmaps::InternalDisplay::Speaker3, 4, 14, SH110X_WHITE);
+	else if(state->mawStage >= MAW_THRESHOLD_2)
+		display.drawBitmap(11, 66, Bitmaps::InternalDisplay::Speaker2, 3, 10, SH110X_WHITE);
+	else if(state->mawStage >= MAW_THRESHOLD_1)
+		display.drawBitmap(10, 68, Bitmaps::InternalDisplay::Speaker1, 2, 6, SH110X_WHITE);
 
 	// TODO: Find a better way of splitting the individual face parts out, rather than just drawing it thrice and covering it with a mask
 	for(uint8_t i = 0; i < 3; i++)
